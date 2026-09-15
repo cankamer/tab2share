@@ -1,0 +1,307 @@
+{
+  "app": {
+    "untitled": "İsimsiz",
+    "unsavedMark": "*",
+    "confirmDiscard": "\"{{title}}\" için kaydedilmemiş değişiklikler atılsın mı?"
+  },
+  "theme": {
+    "label": "Tema",
+    "light": "Aydınlık",
+    "dark": "Karanlık",
+    "system": "Sistem"
+  },
+  "language": {
+    "label": "Dil",
+    "tr": "Türkçe",
+    "en": "English"
+  },
+  "tuningWarning": "Bu şekil standart akort için hesaplandı. Bu akortta gerçekte çaldığınız perde farklı olabilir — akor ismini kontrol edin.",
+  "chordPicker": {
+    "labelField": "Etiket",
+    "labelPlaceholder": "(yok)",
+    "labelHint": "— imleçteki beat'in akor ismini düzeltir",
+    "labelTitle": "Bölüm 9.2: mevcut akort standart değilse ismi düzeltin.",
+    "hubLabel": "etiket",
+    "hubEmpty": "—",
+    "categories": {
+      "major": "Majör",
+      "minor": "Minör",
+      "seventh": "Yedili",
+      "sus": "Sus",
+      "power": "Power"
+    }
+  },
+  "effectPalette": {
+    "bendTitle": "Bend (B)",
+    "vibratoTitle": "Vibrato (V / Alt+V)",
+    "slideTitle": "Slide (S / Alt+S)",
+    "hammer": "hammer/pull",
+    "dead": "ölü nota x",
+    "ghost": "hayalet nota (5)",
+    "palmMute": "palm mute",
+    "letRing": "let ring",
+    "clearEffects": "Efektleri temizle",
+    "vibratoNormal": "normal 〜",
+    "vibratoWide": "geniş 〜〜",
+    "bendPresets": {
+      "half": "½",
+      "full": "tam",
+      "oneAndHalf": "1½",
+      "bendRelease": "bend/release",
+      "preBend": "pre-bend"
+    },
+    "slideTypes": {
+      "legato": "legato /",
+      "shift": "shift /",
+      "inFromBelow": "içeri /",
+      "inFromAbove": "içeri \\",
+      "outUp": "dışarı /",
+      "outDown": "dışarı \\"
+    }
+  },
+  "durationSelector": {
+    "durations": { "1": "1/1", "2": "1/2", "4": "1/4", "8": "1/8", "16": "1/16", "32": "1/32" },
+    "dotted": "noktalı",
+    "triplet": "triole",
+    "autoAdvance": "otomatik ilerleme"
+  },
+  "measureControls": {
+    "measure": "Ölçü {{n}}",
+    "insertMeasure": "Ölçü ekle",
+    "duplicateMeasure": "Ölçüyü çoğalt",
+    "deleteMeasure": "Ölçüyü sil",
+    "transposeUp": "Transpoze +1",
+    "transposeDown": "Transpoze -1",
+    "tempo": "tempo",
+    "bpm": "{{n}} BPM",
+    "setTempo": "Tempoyu buradan itibaren ayarla",
+    "timeSig": "zaman işareti",
+    "setTimeSig": "Zaman işaretini buradan itibaren ayarla"
+  },
+  "tuningCapo": {
+    "tuning": "Akort",
+    "capo": "capo",
+    "capoValue": "Capo {{n}}",
+    "setCapo": "Capo'yu ayarla",
+    "strings": { "1": "1 (e)", "2": "2 (B)", "3": "3 (G)", "4": "4 (D)", "5": "5 (A)", "6": "6 (E)" }
+  },
+  "exportPanel": {
+    "title": "PNG dışa aktar",
+    "strip": "Video İçin",
+    "reel": "Tab Sayfası",
+    "auto": "Otomatik",
+    "fixed": "Sabit",
+    "titleBlock": "Başlık bloğu (bir satır ayırır: 4 → 3)",
+    "resolution": "Çözünürlük",
+    "watermark": "Tab2Share etiketi",
+    "export": "PNG dışa aktar...",
+    "copy": "Panoya kopyala",
+    "clipboardNote": "Windows panosu her uygulamada saydamlığı garanti etmez — alfa kanalı önemliyse dosyaya aktarın.",
+    "exportedOne": "{{path}} dışa aktarıldı",
+    "exportedMany": "{{count}} dosya dışa aktarıldı: {{paths}}",
+    "copiedToClipboard": "Panoya kopyalandı."
+  },
+  "linePreview": {
+    "lineBreaking": "Satır kırma",
+    "auto": "Otomatik",
+    "fixed": "Sabit",
+    "lineWidth": "satır genişliği (px)"
+  },
+  "menu": {
+    "file": {
+      "label": "Dosya",
+      "newProject": "Yeni proje",
+      "open": "Aç...",
+      "recentFiles": "Son açılanlar",
+      "noRecentFiles": "Son açılan dosya yok",
+      "save": "Kaydet",
+      "saveAs": "Farklı kaydet...",
+      "exportPng": "PNG dışa aktar...",
+      "copyPng": "PNG'yi panoya kopyala",
+      "projectSettings": "Proje ayarları...",
+      "exit": "Çıkış"
+    },
+    "edit": {
+      "label": "Düzen",
+      "undo": "Geri al",
+      "redo": "Yinele",
+      "cut": "Kes",
+      "copy": "Kopyala",
+      "paste": "Yapıştır",
+      "delete": "Sil",
+      "selectAll": "Tümünü seç",
+      "insertMeasure": "Ölçü ekle",
+      "duplicateMeasure": "Ölçüyü çoğalt",
+      "deleteMeasure": "Ölçüyü sil",
+      "transposeUp": "Transpoze yukarı",
+      "transposeDown": "Transpoze aşağı",
+      "preferences": "Tercihler..."
+    },
+    "note": {
+      "label": "Nota",
+      "duration": "Süre",
+      "rest": "Es",
+      "bend": "Bend",
+      "vibrato": "Vibrato",
+      "wideVibrato": "Geniş vibrato",
+      "slide": "Slide",
+      "hammer": "Hammer-on / pull-off",
+      "dead": "Ölü nota",
+      "ghost": "Hayalet nota",
+      "palmMute": "Palm mute",
+      "letRing": "Let ring",
+      "clearEffects": "Efektleri temizle"
+    },
+    "view": {
+      "label": "Görünüm",
+      "zoomIn": "Yakınlaştır",
+      "zoomOut": "Uzaklaştır",
+      "resetZoom": "Yakınlaştırmayı sıfırla",
+      "togglePreview": "Önizlemeyi göster/gizle",
+      "toggleFretboard": "Klavyeyi göster/gizle",
+      "toggleChordPicker": "Akor çarkını göster/gizle",
+      "toggleEffectPalette": "Efekt paletini göster/gizle",
+      "measuresPerLine": "Satır başına ölçü",
+      "theme": "Tema",
+      "language": "Dil"
+    },
+    "help": {
+      "label": "Yardım",
+      "gettingStarted": "Başlarken",
+      "keyboardShortcuts": "Klavye kısayolları",
+      "notationGuide": "Tab notasyon rehberi",
+      "reportIssue": "Sorun bildir",
+      "sourceCode": "Kaynak kod",
+      "checkUpdates": "Güncellemeleri denetle",
+      "about": "Tab2Share hakkında",
+      "notConfigured": "Proje deposu henüz ayarlanmadı"
+    }
+  },
+  "disabledReasons": {
+    "undo": "Geri alınacak bir şey yok",
+    "redo": "Yinelenecek bir şey yok",
+    "paste": "Pano boş",
+    "selection": "Seçim yok",
+    "zoomIn": "Zaten en yüksek yakınlaştırmada",
+    "zoomOut": "Zaten en düşük yakınlaştırmada",
+    "notConfigured": "Henüz ayarlanmadı",
+    "readOnly": "Dosya salt okunur — daha yeni bir Tab2Share sürümüyle kaydedilmiş"
+  },
+  "shortcuts": {
+    "title": "Klavye kısayolları",
+    "searchPlaceholder": "Kısayol ara...",
+    "noResults": "Eşleşen kısayol yok",
+    "footnote": "Kısayollar v1'de değiştirilemez.",
+    "categories": {
+      "navigation": "Gezinme",
+      "noteEntry": "Nota girişi",
+      "effects": "Efektler",
+      "editing": "Düzenleme",
+      "file": "Dosya",
+      "view": "Görünüm"
+    },
+    "f1Note": "F1, yardımı değil \"tam nota\" süresini açar — yardım Ctrl+/ üzerindedir (bölüm 8).",
+    "items": {
+      "moveCursor": "İmleci hareket ettir",
+      "extendSelection": "Seçimi genişlet",
+      "measureHome": "Ölçü başına git",
+      "measureEnd": "Ölçü sonuna git",
+      "confirmDigit": "Bekleyen iki haneli perdeyi onayla",
+      "fretNumber": "Perde numarası gir (10-24: iki hane)",
+      "chordModeDigit": "İmleci ilerletmeden perde gir",
+      "insertBeat": "Beat ekle",
+      "deleteNote": "Notayı sil / seçimi temizle",
+      "deleteBeat": "Beat'i sil",
+      "rest": "Es",
+      "dotted": "Noktalı",
+      "triplet": "Triole",
+      "bendFull": "Bend (tam ton)",
+      "vibratoNormal": "Vibrato",
+      "vibratoWide": "Geniş vibrato",
+      "slideLegato": "Slide (legato)",
+      "slideShift": "Slide (shift)",
+      "hammerPull": "Hammer-on / pull-off",
+      "deadNote": "Ölü nota",
+      "ghostNote": "Hayalet nota",
+      "palmMute": "Palm mute",
+      "letRing": "Let ring",
+      "clearEffects": "Efektleri temizle"
+    }
+  },
+  "projectSettings": {
+    "title": "Proje ayarları",
+    "titleField": "Başlık",
+    "artistField": "Sanatçı",
+    "tempoField": "Varsayılan tempo",
+    "timeSigField": "Varsayılan zaman işareti",
+    "tuningField": "Akort",
+    "capoField": "Capo",
+    "close": "Kapat"
+  },
+  "preferences": {
+    "title": "Tercihler",
+    "themeField": "Tema",
+    "languageField": "Dil",
+    "autosaveNote": "Proje bir kayıt konumuna sahip olduğunda otomatik kayıt her 5 saniyede bir kurtarma kopyası yazar.",
+    "close": "Kapat"
+  },
+  "about": {
+    "title": "Tab2Share hakkında",
+    "version": "Sürüm {{version}}",
+    "license": "Lisans: MIT",
+    "close": "Kapat"
+  },
+  "gettingStarted": {
+    "title": "Başlarken",
+    "body": "Bir süre seçin (F1-F6), sonra gitar klavyesinde bir perdeye tıklayın veya rakamını yazarak nota girin. Tam akorlar için akor çarkını kullanın. Geri al/yinele, kes/kopyala/yapıştır ve efekt kısayollarının hepsi çalarken çalışır — tam liste için Yardım > Klavye kısayolları'na bakın."
+  },
+  "notationGuide": {
+    "title": "Tab notasyon rehberi",
+    "body": "Bend, hedef aralıkla birlikte yukarı ok çizer; slide iki perde arasında çapraz çizgi çizer; vibrato notanın üstünde dalgalı bir çizgidir; h/p aynı tel üzerindeki iki nota arasında hammer-on veya pull-off işaretidir; x ölü/susturulmuş notayı işaretler; parantez içindeki nota hayalet notadır; bir pasajın altındaki köşeli parantez palm mute'u işaretler; kesikli bağ let-ring'i işaretler."
+  },
+  "errors": {
+    "openFailed": "Proje açılamadı: {{message}}",
+    "saveFailed": "Proje kaydedilemedi: {{message}}",
+    "versionNewer": "Bu dosya Tab2Share sürüm {{version}} ile kaydedildi, bu uygulamadan (sürüm {{current}}) daha yeni — hiçbir şey sessizce bozulmasın diye salt okunur açıldı. Düzenlemek için Tab2Share'i güncelleyin.",
+    "readOnlyBlocked": "Bu proje salt okunur (daha yeni bir Tab2Share sürümüyle kaydedilmiş) — düzenlemek için uygulamayı güncelleyin.",
+    "readOnlySave": "Kaydedilemiyor: bu proje salt okunur (daha yeni bir Tab2Share sürümüyle kaydedilmiş)."
+  },
+  "confirm": {
+    "yes": "Evet",
+    "cancel": "Vazgeç"
+  },
+  "welcome": {
+    "title": "Tab2Share",
+    "subtitle": "Bir tab'ı paylaşıma hazır bir görsele dönüştür.",
+    "openExample": {
+      "title": "Örnek projeyi aç",
+      "description": "Birkaç bend içeren kısa bir Am-C-G-F yürüyüşü, doğrudan ekranda — sen bir şey yazmadan Tab2Share'in ne ürettiğini gör."
+    },
+    "newProject": {
+      "title": "Yeni proje",
+      "description": "Boş bir tab ile başla."
+    },
+    "openProject": {
+      "title": "Proje aç",
+      "description": "Var olan bir .t2s dosyası seç."
+    }
+  },
+  "tour": {
+    "stepCount": "Adım {{current}} / {{total}}",
+    "skip": "Atla",
+    "next": "İleri",
+    "done": "Bitti",
+    "addNote": {
+      "title": "Nota ekle",
+      "body": "Bir süre seçin (F1-F6), sonra gitar klavyesinde bir perdeye tıklayın — veya rakamını yazın — imleçteki tele nota eklemek için."
+    },
+    "applyEffect": {
+      "title": "Efekt uygula",
+      "body": "Bir nota seçiliyken efekt paletindeki bir düğmeye tıklayın (veya kısayolunu kullanın, örn. bend için B) — bend, slide, vibrato ve daha fazlasını eklemek için."
+    },
+    "export": {
+      "title": "Dışa aktar",
+      "body": "Hazır olduğunda, reel veya tekli şerit boyutunda, paylaşıma hazır bir görsel kaydetmek için Dosya > PNG dışa aktar... (Ctrl+E) kullanın."
+    }
+  }
+}

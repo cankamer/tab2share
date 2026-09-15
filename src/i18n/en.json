@@ -1,0 +1,307 @@
+{
+  "app": {
+    "untitled": "Untitled",
+    "unsavedMark": "*",
+    "confirmDiscard": "Discard unsaved changes to \"{{title}}\"?"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "label": "Language",
+    "tr": "Türkçe",
+    "en": "English"
+  },
+  "tuningWarning": "This shape was calculated for standard tuning. The pitch you actually play in this tuning may differ — check the chord name.",
+  "chordPicker": {
+    "labelField": "Label",
+    "labelPlaceholder": "(none)",
+    "labelHint": "— corrects the cursor beat's chord name",
+    "labelTitle": "Section 9.2: correct the name if the current tuning isn't standard.",
+    "hubLabel": "label",
+    "hubEmpty": "—",
+    "categories": {
+      "major": "Major",
+      "minor": "Minor",
+      "seventh": "Seventh",
+      "sus": "Sus",
+      "power": "Power"
+    }
+  },
+  "effectPalette": {
+    "bendTitle": "Bend (B)",
+    "vibratoTitle": "Vibrato (V / Alt+V)",
+    "slideTitle": "Slide (S / Alt+S)",
+    "hammer": "hammer/pull",
+    "dead": "dead x",
+    "ghost": "ghost (5)",
+    "palmMute": "palm mute",
+    "letRing": "let ring",
+    "clearEffects": "Clear effects",
+    "vibratoNormal": "normal 〜",
+    "vibratoWide": "wide 〜〜",
+    "bendPresets": {
+      "half": "½",
+      "full": "full",
+      "oneAndHalf": "1½",
+      "bendRelease": "bend/release",
+      "preBend": "pre-bend"
+    },
+    "slideTypes": {
+      "legato": "legato /",
+      "shift": "shift /",
+      "inFromBelow": "in /",
+      "inFromAbove": "in \\",
+      "outUp": "out /",
+      "outDown": "out \\"
+    }
+  },
+  "durationSelector": {
+    "durations": { "1": "1/1", "2": "1/2", "4": "1/4", "8": "1/8", "16": "1/16", "32": "1/32" },
+    "dotted": "dotted",
+    "triplet": "triplet",
+    "autoAdvance": "auto-advance"
+  },
+  "measureControls": {
+    "measure": "Measure {{n}}",
+    "insertMeasure": "Insert measure",
+    "duplicateMeasure": "Duplicate measure",
+    "deleteMeasure": "Delete measure",
+    "transposeUp": "Transpose +1",
+    "transposeDown": "Transpose -1",
+    "tempo": "tempo",
+    "bpm": "{{n}} BPM",
+    "setTempo": "Set tempo from here",
+    "timeSig": "time sig",
+    "setTimeSig": "Set time sig from here"
+  },
+  "tuningCapo": {
+    "tuning": "Tuning",
+    "capo": "capo",
+    "capoValue": "Capo {{n}}",
+    "setCapo": "Set capo",
+    "strings": { "1": "1 (e)", "2": "2 (B)", "3": "3 (G)", "4": "4 (D)", "5": "5 (A)", "6": "6 (E)" }
+  },
+  "exportPanel": {
+    "title": "Export PNG",
+    "strip": "For Video",
+    "reel": "Tab Sheet",
+    "auto": "Auto",
+    "fixed": "Fixed",
+    "titleBlock": "Title block (reserves a line: 4 → 3)",
+    "resolution": "Resolution",
+    "watermark": "Tab2Share watermark",
+    "export": "Export PNG...",
+    "copy": "Copy to clipboard",
+    "clipboardNote": "Windows clipboard doesn't guarantee transparency for every app — export to a file if alpha matters.",
+    "exportedOne": "Exported {{path}}",
+    "exportedMany": "Exported {{count}} files: {{paths}}",
+    "copiedToClipboard": "Copied to clipboard."
+  },
+  "linePreview": {
+    "lineBreaking": "Line breaking",
+    "auto": "Auto",
+    "fixed": "Fixed",
+    "lineWidth": "line width (px)"
+  },
+  "menu": {
+    "file": {
+      "label": "File",
+      "newProject": "New project",
+      "open": "Open...",
+      "recentFiles": "Recent files",
+      "noRecentFiles": "No recent files",
+      "save": "Save",
+      "saveAs": "Save as...",
+      "exportPng": "Export PNG...",
+      "copyPng": "Copy PNG to clipboard",
+      "projectSettings": "Project settings...",
+      "exit": "Exit"
+    },
+    "edit": {
+      "label": "Edit",
+      "undo": "Undo",
+      "redo": "Redo",
+      "cut": "Cut",
+      "copy": "Copy",
+      "paste": "Paste",
+      "delete": "Delete",
+      "selectAll": "Select all",
+      "insertMeasure": "Insert measure",
+      "duplicateMeasure": "Duplicate measure",
+      "deleteMeasure": "Delete measure",
+      "transposeUp": "Transpose up",
+      "transposeDown": "Transpose down",
+      "preferences": "Preferences..."
+    },
+    "note": {
+      "label": "Note",
+      "duration": "Duration",
+      "rest": "Rest",
+      "bend": "Bend",
+      "vibrato": "Vibrato",
+      "wideVibrato": "Wide vibrato",
+      "slide": "Slide",
+      "hammer": "Hammer-on / pull-off",
+      "dead": "Dead note",
+      "ghost": "Ghost note",
+      "palmMute": "Palm mute",
+      "letRing": "Let ring",
+      "clearEffects": "Clear effects"
+    },
+    "view": {
+      "label": "View",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "resetZoom": "Reset zoom",
+      "togglePreview": "Toggle preview",
+      "toggleFretboard": "Toggle fretboard",
+      "toggleChordPicker": "Toggle chord picker",
+      "toggleEffectPalette": "Toggle effect palette",
+      "measuresPerLine": "Measures per line",
+      "theme": "Theme",
+      "language": "Language"
+    },
+    "help": {
+      "label": "Help",
+      "gettingStarted": "Getting started",
+      "keyboardShortcuts": "Keyboard shortcuts",
+      "notationGuide": "Tab notation guide",
+      "reportIssue": "Report an issue",
+      "sourceCode": "Source code",
+      "checkUpdates": "Check for updates",
+      "about": "About Tab2Share",
+      "notConfigured": "No project repository is set up yet"
+    }
+  },
+  "disabledReasons": {
+    "undo": "Nothing to undo",
+    "redo": "Nothing to redo",
+    "paste": "Clipboard is empty",
+    "selection": "No selection",
+    "zoomIn": "Already at maximum zoom",
+    "zoomOut": "Already at minimum zoom",
+    "notConfigured": "Not set up yet",
+    "readOnly": "File is read-only — saved by a newer Tab2Share version"
+  },
+  "shortcuts": {
+    "title": "Keyboard shortcuts",
+    "searchPlaceholder": "Search shortcuts...",
+    "noResults": "No matching shortcuts",
+    "footnote": "Shortcuts can't be reassigned in v1.",
+    "categories": {
+      "navigation": "Navigation",
+      "noteEntry": "Note entry",
+      "effects": "Effects",
+      "editing": "Editing",
+      "file": "File",
+      "view": "View"
+    },
+    "f1Note": "F1 opens duration \"whole note\", not help — help lives on Ctrl+/ (section 8).",
+    "items": {
+      "moveCursor": "Move cursor",
+      "extendSelection": "Extend selection",
+      "measureHome": "Jump to measure start",
+      "measureEnd": "Jump to measure end",
+      "confirmDigit": "Confirm pending two-digit fret",
+      "fretNumber": "Enter fret number (10-24: two digits)",
+      "chordModeDigit": "Enter fret without advancing the cursor",
+      "insertBeat": "Insert beat",
+      "deleteNote": "Delete note / clear selection",
+      "deleteBeat": "Delete beat",
+      "rest": "Rest",
+      "dotted": "Dotted",
+      "triplet": "Triplet",
+      "bendFull": "Bend (full step)",
+      "vibratoNormal": "Vibrato",
+      "vibratoWide": "Wide vibrato",
+      "slideLegato": "Slide (legato)",
+      "slideShift": "Slide (shift)",
+      "hammerPull": "Hammer-on / pull-off",
+      "deadNote": "Dead note",
+      "ghostNote": "Ghost note",
+      "palmMute": "Palm mute",
+      "letRing": "Let ring",
+      "clearEffects": "Clear effects"
+    }
+  },
+  "projectSettings": {
+    "title": "Project settings",
+    "titleField": "Title",
+    "artistField": "Artist",
+    "tempoField": "Default tempo",
+    "timeSigField": "Default time signature",
+    "tuningField": "Tuning",
+    "capoField": "Capo",
+    "close": "Close"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "themeField": "Theme",
+    "languageField": "Language",
+    "autosaveNote": "Autosave writes a recovery copy every 5 seconds once the project has a save location.",
+    "close": "Close"
+  },
+  "about": {
+    "title": "About Tab2Share",
+    "version": "Version {{version}}",
+    "license": "License: MIT",
+    "close": "Close"
+  },
+  "gettingStarted": {
+    "title": "Getting started",
+    "body": "Pick a duration (F1-F6), then click a fret on the guitar keyboard or type its number to place a note. Use the chord wheel to drop in full chords. Undo/redo, cut/copy/paste, and the effect shortcuts all work while you play — check Help > Keyboard shortcuts for the full list."
+  },
+  "notationGuide": {
+    "title": "Tab notation guide",
+    "body": "Bends draw an upward arrow with the target interval; slides draw a diagonal line between frets; vibrato is a wavy line above the note; h/p marks a hammer-on or pull-off between two notes on the same string; x marks a dead/muted note; a note in parentheses is a ghost note; brackets under a passage mark palm muting; a dashed tie marks let-ring."
+  },
+  "errors": {
+    "openFailed": "Couldn't open project: {{message}}",
+    "saveFailed": "Couldn't save project: {{message}}",
+    "versionNewer": "This file was saved by Tab2Share version {{version}}, newer than this app (version {{current}}) — opened read-only so nothing gets silently corrupted. Update Tab2Share to edit it.",
+    "readOnlyBlocked": "This project is read-only (saved by a newer Tab2Share version) — update the app to edit it.",
+    "readOnlySave": "Can't save: this project is read-only (saved by a newer Tab2Share version)."
+  },
+  "confirm": {
+    "yes": "Yes",
+    "cancel": "Cancel"
+  },
+  "welcome": {
+    "title": "Tab2Share",
+    "subtitle": "Turn a tab into a share-ready image.",
+    "openExample": {
+      "title": "Open the example",
+      "description": "A short Am-C-G-F riff with a couple of bends, already on screen — see what Tab2Share produces before you write a note."
+    },
+    "newProject": {
+      "title": "New project",
+      "description": "Start from a blank tab."
+    },
+    "openProject": {
+      "title": "Open project",
+      "description": "Pick an existing .t2s file."
+    }
+  },
+  "tour": {
+    "stepCount": "Step {{current}} of {{total}}",
+    "skip": "Skip",
+    "next": "Next",
+    "done": "Done",
+    "addNote": {
+      "title": "Add a note",
+      "body": "Pick a duration (F1-F6), then click a fret on the guitar keyboard — or type its number — to place a note on the cursor's string."
+    },
+    "applyEffect": {
+      "title": "Apply an effect",
+      "body": "With a note selected, click a button in the effect palette (or press its shortcut, like B for bend) to add a bend, slide, vibrato, and more."
+    },
+    "export": {
+      "title": "Export it",
+      "body": "When it's ready, use File > Export PNG... (Ctrl+E) to save an image sized for a reel or a single strip, ready to post."
+    }
+  }
+}

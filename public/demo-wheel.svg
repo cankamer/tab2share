@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 380" width="100%" height="380">
+  <defs>
+    <linearGradient id="wheelCardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c2c30" />
+      <stop offset="100%" stop-color="#242427" />
+    </linearGradient>
+
+    <filter id="softRaised" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="4" dy="4" stdDeviation="6" flood-color="#141416" flood-opacity="0.8" />
+      <feDropShadow dx="-3" dy="-3" stdDeviation="5" flood-color="#3f3f46" flood-opacity="0.25" />
+    </filter>
+
+    <filter id="diagramShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#09090b" flood-opacity="0.75" />
+    </filter>
+
+    <style>
+      .wheel-btn { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; fill: #e4e4e7; text-anchor: middle; }
+      .hub-title { font-family: system-ui; font-size: 10px; font-weight: 600; fill: #a1a1aa; text-anchor: middle; }
+      .hub-val { font-family: system-ui; font-size: 16px; font-weight: 800; fill: #ef4444; text-anchor: middle; }
+
+      /* Animation for Mouse Cursor, Spoke Selection & Diagram Popover */
+      @keyframes pointerMove {
+        0%, 15% { transform: translate(320px, 320px); opacity: 0; }
+        25% { transform: translate(210px, 130px); opacity: 1; }
+        30%, 80% { transform: translate(210px, 130px); opacity: 1; }
+        90%, 100% { transform: translate(340px, 320px); opacity: 0; }
+      }
+
+      @keyframes chordBtnPress {
+        0%, 25% { transform: scale(1); stroke: transparent; }
+        30%, 80% { transform: scale(0.96); stroke: #ef4444; stroke-width: 2; }
+        90%, 100% { transform: scale(1); stroke: transparent; }
+      }
+
+      @keyframes popoverInward {
+        0%, 28% { opacity: 0; transform: translate(168px, 155px) scale(0.85); }
+        35%, 75% { opacity: 1; transform: translate(168px, 142px) scale(1); }
+        85%, 100% { opacity: 0; transform: translate(168px, 155px) scale(0.85); }
+      }
+
+      @keyframes hubGlow {
+        0%, 25% { fill: #a1a1aa; }
+        30%, 80% { fill: #ef4444; }
+        90%, 100% { fill: #a1a1aa; }
+      }
+
+      .anim-pointer { animation: pointerMove 6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
+      .anim-btn-c { animation: chordBtnPress 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .anim-popover { animation: popoverInward 6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite; }
+      .anim-hub-text { animation: hubGlow 6s infinite; }
+    </style>
+  </defs>
+
+  <!-- Neumorphic Outer Card -->
+  <rect x="15" y="15" width="390" height="350" rx="24" fill="url(#wheelCardBg)" filter="url(#softRaised)" stroke="#38383c" stroke-width="1.2" />
+
+  <!-- Category Pills at Top -->
+  <g transform="translate(35, 38)">
+    <rect x="0" y="0" width="62" height="24" rx="8" fill="#202023" stroke="#ef4444" stroke-width="1.2" />
+    <text x="31" y="16" font-family="system-ui" font-size="11" font-weight="700" fill="#ef4444" text-anchor="middle">Major</text>
+
+    <rect x="70" y="0" width="62" height="24" rx="8" fill="#2a2a2e" stroke="#38383e" stroke-width="0.8" />
+    <text x="101" y="16" font-family="system-ui" font-size="11" font-weight="600" fill="#a1a1aa" text-anchor="middle">Minor</text>
+
+    <rect x="140" y="0" width="68" height="24" rx="8" fill="#2a2a2e" stroke="#38383e" stroke-width="0.8" />
+    <text x="174" y="16" font-family="system-ui" font-size="11" font-weight="600" fill="#a1a1aa" text-anchor="middle">Seventh</text>
+
+    <rect x="216" y="0" width="58" height="24" rx="8" fill="#2a2a2e" stroke="#38383e" stroke-width="0.8" />
+    <text x="245" y="16" font-family="system-ui" font-size="11" font-weight="600" fill="#a1a1aa" text-anchor="middle">Sus</text>
+
+    <rect x="282" y="0" width="68" height="24" rx="8" fill="#2a2a2e" stroke="#38383e" stroke-width="0.8" />
+    <text x="316" y="16" font-family="system-ui" font-size="11" font-weight="600" fill="#a1a1aa" text-anchor="middle">Power</text>
+  </g>
+
+  <!-- Center Hub Display -->
+  <g transform="translate(210, 215)">
+    <circle cx="0" cy="0" r="34" fill="#1f1f22" stroke="#38383c" stroke-width="1.5" />
+    <text x="0" y="-8" class="hub-title">CHORD</text>
+    <text x="0" y="14" class="hub-val anim-hub-text">C</text>
+  </g>
+
+  <!-- Spoke Buttons arranged circularly around center (210, 215) with radius 72 -->
+  <!-- Top: C (angle: -90 deg -> 210, 143) -->
+  <g class="anim-btn-c">
+    <circle cx="210" cy="143" r="19" fill="#28282c" filter="url(#softRaised)" />
+    <text x="210" y="148" class="wheel-btn">C</text>
+  </g>
+
+  <!-- Top-Right: A (angle: -38 deg -> 266, 170) -->
+  <g>
+    <circle cx="266" cy="170" r="19" fill="#28282c" filter="url(#softRaised)" />
+    <text x="266" y="175" class="wheel-btn">A</text>
+  </g>
+
+  <!-- Bottom-Right: G (angle: +12 deg -> 280, 230) -->
+  <g>
+    <circle cx="280" cy="230" r="19" fill="#28282c" filter="url(#softRaised)" />
+    <text x="280" y="235" class="wheel-btn">G</text>
+  </g>
+
+  <!-- Bottom: E (angle: +64 deg -> 241, 280) -->
+  <g>
+    <circle cx="241" cy="280" r="19" fill="#28282c" filter="url(#softRaised)" />
+    <text x="241" y="285" class="wheel-btn">E</text>
+  </g>
+
+  <!-- Bottom-Left: D (angle: +115 deg -> 180, 280) -->
+  <g>
+    <circle cx="180" cy="280" r="19" fill="#28282c" filter="url(#softRaised)" />
+    <text x="180" y="285" class="wheel-btn">D</text>
+  </g>
+
+  <!-- Left: F (angle: +167 deg -> 140, 231) -->
+  <g>
+    <circle cx="140" cy="231" r="19" fill="#28282c" filter="url(#softRaised)" />
+    <text x="140" y="236" class="wheel-btn">F</text>
+  </g>
+
+  <!-- Top-Left: B (angle: -141 deg -> 154, 170) -->
+  <g>
+    <circle cx="154" cy="170" r="19" fill="#28282c" filter="url(#softRaised)" />
+    <text x="154" y="175" class="wheel-btn">B</text>
+  </g>
+
+  <!-- Animated Inward Chord Diagram Popover for C Major (opens inward towards hub) -->
+  <g class="anim-popover">
+    <!-- Diagram Card Background -->
+    <rect x="0" y="0" width="84" height="98" rx="12" fill="#1c1c1f" stroke="#38383e" stroke-width="1.2" filter="url(#diagramShadow)" />
+    
+    <!-- Title / Root note -->
+    <text x="42" y="15" font-family="system-ui" font-size="11" font-weight="bold" fill="#e4e4e7" text-anchor="middle">C Major</text>
+    
+    <!-- Chord Grid SVG representation -->
+    <g transform="translate(14, 24)">
+      <!-- Nut / Fret 0 -->
+      <line x1="0" y1="8" x2="56" y2="8" stroke="#71717a" stroke-width="2" />
+      <!-- Fret lines -->
+      <line x1="0" y1="20" x2="56" y2="20" stroke="#3f3f46" stroke-width="1" />
+      <line x1="0" y1="32" x2="56" y2="32" stroke="#3f3f46" stroke-width="1" />
+      <line x1="0" y1="44" x2="56" y2="44" stroke="#3f3f46" stroke-width="1" />
+      <line x1="0" y1="56" x2="56" y2="56" stroke="#3f3f46" stroke-width="1" />
+      <!-- Strings -->
+      <line x1="0" y1="8" x2="0" y2="56" stroke="#3f3f46" stroke-width="1" />
+      <line x1="11.2" y1="8" x2="11.2" y2="56" stroke="#3f3f46" stroke-width="1" />
+      <line x1="22.4" y1="8" x2="22.4" y2="56" stroke="#3f3f46" stroke-width="1" />
+      <line x1="33.6" y1="8" x2="33.6" y2="56" stroke="#3f3f46" stroke-width="1" />
+      <line x1="44.8" y1="8" x2="44.8" y2="56" stroke="#3f3f46" stroke-width="1" />
+      <line x1="56" y1="8" x2="56" y2="56" stroke="#3f3f46" stroke-width="1" />
+
+      <!-- Fret dots for C major (x 3 2 0 1 0) -->
+      <text x="0" y="4" font-family="monospace" font-size="8" font-weight="bold" fill="#71717a" text-anchor="middle">×</text>
+      <circle cx="11.2" cy="38" r="3.5" fill="#ef4444" />
+      <circle cx="22.4" cy="26" r="3.5" fill="#ef4444" />
+      <circle cx="33.6" cy="4" r="2.5" fill="none" stroke="#71717a" stroke-width="1" />
+      <circle cx="44.8" cy="14" r="3.5" fill="#ef4444" />
+      <circle cx="56" cy="4" r="2.5" fill="none" stroke="#71717a" stroke-width="1" />
+    </g>
+  </g>
+
+  <!-- Animated Floating Mouse Cursor -->
+  <g class="anim-pointer">
+    <path d="M0 0 L0 18 L4.5 14 L8.5 22 L11.5 20.5 L7.5 13 L13 13 Z" fill="#ffffff" stroke="#000000" stroke-width="1.2" />
+  </g>
+</svg>

@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/*
+ * Section 10.1 — neumorphism ("soft UI"). Flat surfaces the same hue as the body; shape comes
+ * only from a matched pair of shadows (one lightened, one darkened copy of the surface color
+ * itself, offset in opposite directions) — never plain black/white shadows, never a gradient
+ * fill. Raised = both shadows outside the shape; pressed = both shadows `inset`. Body stays
+ * fully monochromatic; the single red accent is reserved for active/recording state only.
+ */
+:root {
+  --body: #e4e4e7;
+  --body-edge: #c7c7cb;
+  --control-text: #3a3a3c;
+  --shadow-light: #ffffff;
+  --shadow-dark: #a4a4a6;
+  --distance: 4px;
+  --blur: 9px;
+  --screen: #171717;
+  --screen-line: #232323;
+  --screen-text: #f2f2f2;
+  --label: #6b6b6f;
+  --accent: #d4372b;
+}
+
+@media (prefers-color-scheme: dark) {
+
+  /* System dark applies unless the user explicitly forced light (below). */
+  :root:not([data-theme="light"]) {
+    --body: #2c2c2e;
+    --body-edge: #1b1b1d;
+    --control-text: #e8e8e8;
+    --shadow-light: #404043;
+    --shadow-dark: #141415;
+    --screen: #0c0c0c;
+    --screen-line: #161616;
+    --screen-text: #ededed;
+    --label: #9a9a9a;
+    --accent: #e04638;
+  }
+}
+
+/* Explicit user choice (temporary theme toggle, ahead of section 8's real View > Theme
+   menu) wins over system preference in both directions. */
+:root[data-theme="dark"] {
+  --body: #2c2c2e;
+  --body-edge: #1b1b1d;
+  --control-text: #e8e8e8;
+  --shadow-light: #404043;
+  --shadow-dark: #141415;
+  --screen: #0c0c0c;
+  --screen-line: #161616;
+  --screen-text: #ededed;
+  --label: #9a9a9a;
+  --accent: #e04638;
+}
+
+/* Stilin tamamı bu üç reçetede — her yerde bunları kullan, elle yeni gölge uydurma. */
+
+/* Yüzeyden kabaran şekil: buton, panel, knob gövdesi. */
+.raised {
+  background: var(--body);
+  box-shadow:
+    var(--distance) var(--distance) var(--blur) var(--shadow-dark),
+    calc(var(--distance) * -1) calc(var(--distance) * -1) var(--blur) var(--shadow-light);
+}
+
+/* Basılı/seçili durum: aynı gölge çifti içeri döner, yüzey gövdeye gömülür. */
+button.raised:active,
+.inset {
+  background: var(--body);
+  box-shadow:
+    inset var(--distance) var(--distance) var(--blur) var(--shadow-dark),
+    inset calc(var(--distance) * -1) calc(var(--distance) * -1) var(--blur) var(--shadow-light);
+}
+
+/*
+ * Fretboard'daki her kare kendi küçük neumorphic çipi: aynı ışık/koyu gölge çifti, artı hafif
+ * bir parlaklık degradesi (145deg) — verilen referans reçetenin küçük kontrol ölçeğine
+ * uyarlanmışı. Renkler --shadow-light/--shadow-dark/--body üzerinden geldiği için ışık/koyu
+ * temayı otomatik takip eder, elle bir ton sabitlenmez.
+ */
+.fret-cell {
+  border-radius: 50px;
+  background: linear-gradient(145deg, var(--body), var(--shadow-light));
+  box-shadow:
+    6px 6px 16px var(--shadow-dark),
+    -6px -6px 16px var(--shadow-light);
+}
+
+/* İnlay perdeleri (3, 5, 7, 9...): hafif daha koyu tonlu çip */
+.fret-cell-inlay {
+  border-radius: 50px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--body) 88%, var(--shadow-dark)), var(--body));
+  box-shadow:
+    6px 6px 16px var(--shadow-dark),
+    -6px -6px 16px var(--shadow-light);
+}
+
+/* Basılı/aktif tel: aynı çip içeri gömülür (diğer kontrollerdeki .inset semantiğiyle aynı). */
+.fret-cell-active {
+  border-radius: 50px;
+  background: linear-gradient(145deg, var(--shadow-dark), var(--body));
+  box-shadow:
+    inset 6px 6px 16px var(--shadow-dark),
+    inset -6px -6px 16px var(--shadow-light);
+}
+
+/* Tıklanabilir buton ve perdelerde imleç (pointer) ve hover efekti */
+button,
+[role="button"],
+.fret-cell,
+.fret-cell-inlay,
+.fret-cell-active {
+  cursor: pointer;
+}
+
+button:hover:not(:disabled),
+[role="button"]:hover,
+.fret-cell:hover,
+.fret-cell-inlay:hover {
+  filter: brightness(1.03);
+}
+
+/*
+ * Tab canvas'ı cihazın ekranıdır: koyu panel, gövdeye gömülü cam kuyu — bu sınır, buton
+ * gölgelerinin aksine gerçek koyu bir rim'dir (ekran rengi gövdeden çok uzak, aynı-tondan
+ * gölge burada görünmez kalır). Üzerinde çok hafif yatay tarama çizgisi dokusu.
+ * The scanline sits on the well itself, not the scrolled content, so it stays put as the tab
+ * scrolls underneath it — like glass over a display, not part of the page.
+ */
+.tab-screen {
+  position: relative;
+  background: var(--screen);
+  box-shadow:
+    inset var(--distance) var(--distance) var(--blur) var(--shadow-dark),
+    inset calc(var(--distance) * -1) calc(var(--distance) * -1) var(--blur) var(--shadow-light);
+}
+
+/* Durum hapı: koyu zeminli küçük etiket, örn. "4/4", "120 BPM" — hafif gömük dijital okuma. */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: var(--screen);
+  color: var(--screen-text);
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+  white-space: nowrap;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/*
+ * Section 10.1 erişilebilirlik uyarısı: bu stilde durum bilgisi gölge farkıyla taşınır,
+ * düşük kontrastlı olur. Klavye odağı için görünür, yüksek kontrastlı bir halka bulunur —
+ * gölgeye güvenilmez.
+ */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Hide number input spinners for clean centered skeuomorphic inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/*
+ * Hide native browser scrollbars for tab scroll container so floating NeumorphicScrollbar overlay can handle scrolling without layout compression.
+ */
+.tab-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tab-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
