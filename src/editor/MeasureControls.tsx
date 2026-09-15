@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SkeuButton } from "./ui/SkeuButton";
 import { SkeuInput } from "./ui/SkeuInput";
-import { StatusPill } from "./ui/StatusPill";
 import { Knob } from "./ui/Knob";
 
 interface MeasureControlsProps {
@@ -66,66 +65,93 @@ export function MeasureControls({
   return (
     <div
       key={measureIndex}
-      className="raised flex flex-col gap-5 rounded-2xl p-5"
+      className="raised flex flex-wrap items-center gap-3.5 sm:gap-4 rounded-2xl p-3 text-xs"
     >
-      {/* Panel Header */}
-      <div className="flex items-center justify-between border-b border-[var(--shadow-dark)]/10 pb-3">
-        <h2 className="text-[11px] font-bold uppercase tracking-wider text-[var(--label)]">
-          {t("measureControls.measureTitle", "Measure")} {measureIndex + 1}
-        </h2>
-        <div className="flex gap-2">
-          <StatusPill>
-            {timeSignature.num}/{timeSignature.den}
-          </StatusPill>
-          <StatusPill>{tempo} BPM</StatusPill>
+      {/* Measure Badge */}
+      <div className="flex flex-col gap-1 pr-2.5 border-r border-[var(--shadow-dark)]/15 shrink-0">
+        <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--label)]/70">
+          {t("measureControls.measureTitle", "Measure")}
+        </span>
+        <div className="inset flex h-7 items-center justify-center rounded-lg px-2.5 font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
+          #{measureIndex + 1}
         </div>
       </div>
 
-      <div className="flex flex-wrap items-end gap-6">
-        {/* Actions Group */}
-        <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--label)]/80">
-            {t("measureControls.actions", "Actions")}
-          </span>
-          <div className="flex gap-2">
-            <SkeuButton title="Ctrl+M" onClick={onInsertMeasure}>
-              {t("measureControls.insertMeasure")}
-            </SkeuButton>
-            <SkeuButton title="Ctrl+D" onClick={onDuplicateMeasure}>
-              {t("measureControls.duplicateMeasure")}
-            </SkeuButton>
-            <SkeuButton
-              title="Ctrl+Shift+M"
-              onClick={onDeleteMeasure}
-              className="text-xs px-2"
-            >
-              {t("measureControls.deleteMeasure")}
-            </SkeuButton>
-          </div>
+      {/* Actions Group */}
+      <div className="flex flex-col gap-1 shrink-0">
+        <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--label)]/70">
+          {t("measureControls.actions", "Actions")}
+        </span>
+        <div className="flex items-center gap-1.5 h-7">
+          <SkeuButton
+            title="Ctrl+M"
+            onClick={onInsertMeasure}
+            className="h-7 px-2.5 text-xs font-medium !py-0 flex items-center justify-center"
+          >
+            {t("measureControls.insertMeasure")}
+          </SkeuButton>
+          <SkeuButton
+            title="Ctrl+D"
+            onClick={onDuplicateMeasure}
+            className="h-7 px-2.5 text-xs font-medium !py-0 flex items-center justify-center"
+          >
+            {t("measureControls.duplicateMeasure")}
+          </SkeuButton>
+          <SkeuButton
+            title="Ctrl+Shift+M"
+            onClick={onDeleteMeasure}
+            className="h-7 px-2.5 text-xs font-medium !py-0 flex items-center justify-center text-red-400 hover:text-red-300"
+          >
+            {t("measureControls.deleteMeasure")}
+          </SkeuButton>
         </div>
+      </div>
 
-        {/* Transpose Group */}
-        <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--label)]/80">
-            {t("measureControls.transposeGroup", "Transpose")}
-          </span>
-          <div className="flex gap-2">
-            <SkeuButton title="Ctrl+Up" onClick={onTransposeUp} className="text-xs px-2.5">
-              + {t("measureControls.transposeUp")}
-            </SkeuButton>
-            <SkeuButton title="Ctrl+Down" onClick={onTransposeDown} className="text-xs px-2.5">
-              - {t("measureControls.transposeDown")}
-            </SkeuButton>
-          </div>
+      {/* Divider */}
+      <div className="hidden sm:block h-6 w-px bg-[var(--shadow-dark)]/15 self-end mb-0.5 shrink-0" />
+
+      {/* Transpose Group */}
+      <div className="flex flex-col gap-1 shrink-0">
+        <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--label)]/70">
+          {t("measureControls.transposeGroup", "Transpose")}
+        </span>
+        <div className="flex items-center gap-1.5 h-7">
+          <SkeuButton
+            title={`${t("measureControls.transposeUp")} (Ctrl+Up)`}
+            onClick={onTransposeUp}
+            className="h-7 px-2.5 font-mono text-xs font-bold !py-0 flex items-center justify-center"
+          >
+            +1
+          </SkeuButton>
+          <SkeuButton
+            title={`${t("measureControls.transposeDown")} (Ctrl+Down)`}
+            onClick={onTransposeDown}
+            className="h-7 px-2.5 font-mono text-xs font-bold !py-0 flex items-center justify-center"
+          >
+            -1
+          </SkeuButton>
         </div>
+      </div>
 
-        {/* Tempo Group */}
-        <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--label)]/80">
-            {t("measureControls.tempoGroup", "Tempo")}
-          </span>
-          <div className="flex items-center gap-2">
-            <Knob value={tempo} min={MIN_TEMPO} max={MAX_TEMPO} onChange={onSetTempo} />
+      {/* Divider */}
+      <div className="hidden sm:block h-6 w-px bg-[var(--shadow-dark)]/15 self-end mb-0.5 shrink-0" />
+
+      {/* Tempo Group */}
+      <div className="flex flex-col gap-1 shrink-0">
+        <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--label)]/70">
+          {t("measureControls.tempoGroup", "Tempo")}
+        </span>
+        <div className="flex items-center gap-2 h-7">
+          <Knob
+            value={tempo}
+            min={MIN_TEMPO}
+            max={MAX_TEMPO}
+            size={28}
+            showMinMax={false}
+            title={`Tempo: ${tempo} BPM (${MIN_TEMPO}-${MAX_TEMPO})`}
+            onChange={onSetTempo}
+          />
+          <div className="flex items-center gap-1">
             <SkeuInput
               type="number"
               min={1}
@@ -141,41 +167,45 @@ export function MeasureControls({
               onBlur={() => {
                 setLocalTempo(tempo.toString());
               }}
-              className="w-16 text-center font-mono"
+              className="h-7 w-14 text-center font-mono text-xs !py-0"
             />
+            <span className="text-[10px] font-semibold text-[var(--label)]/80">BPM</span>
           </div>
         </div>
+      </div>
 
-        {/* Time Signature Group */}
-        <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--label)]/80">
-            {t("measureControls.timeSigGroup", "Time Sig")}
-          </span>
-          <div className="flex items-center gap-2 text-[var(--label)] font-bold">
-            <SkeuInput
-              type="number"
-              min={1}
-              max={32}
-              value={localNum}
-              onChange={(e) => handleTimeSigChange(e.target.value, localDen)}
-              onBlur={() => {
-                setLocalNum(timeSignature.num.toString());
-              }}
-              className="w-12 text-center font-mono"
-            />
-            <span>/</span>
-            <SkeuInput
-              type="number"
-              min={1}
-              max={32}
-              value={localDen}
-              onChange={(e) => handleTimeSigChange(localNum, e.target.value)}
-              onBlur={() => {
-                setLocalDen(timeSignature.den.toString());
-              }}
-              className="w-12 text-center font-mono"
-            />
-          </div>
+      {/* Divider */}
+      <div className="hidden sm:block h-6 w-px bg-[var(--shadow-dark)]/15 self-end mb-0.5 shrink-0" />
+
+      {/* Time Signature Group */}
+      <div className="flex flex-col gap-1 shrink-0">
+        <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--label)]/70">
+          {t("measureControls.timeSigGroup", "Time Sig")}
+        </span>
+        <div className="flex items-center gap-1.5 h-7 text-[var(--label)] font-bold">
+          <SkeuInput
+            type="number"
+            min={1}
+            max={32}
+            value={localNum}
+            onChange={(e) => handleTimeSigChange(e.target.value, localDen)}
+            onBlur={() => {
+              setLocalNum(timeSignature.num.toString());
+            }}
+            className="h-7 w-10 text-center font-mono text-xs !py-0"
+          />
+          <span className="text-xs text-[var(--label)]/80">/</span>
+          <SkeuInput
+            type="number"
+            min={1}
+            max={32}
+            value={localDen}
+            onChange={(e) => handleTimeSigChange(localNum, e.target.value)}
+            onBlur={() => {
+              setLocalDen(timeSignature.den.toString());
+            }}
+            className="h-7 w-10 text-center font-mono text-xs !py-0"
+          />
         </div>
       </div>
     </div>

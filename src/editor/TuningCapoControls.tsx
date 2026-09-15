@@ -58,16 +58,20 @@ export function TuningCapoControls({
   return (
     <div
       key={tuning.join(",")}
-      className="raised flex flex-wrap items-center gap-6 rounded-2xl p-4 text-xs"
+      className="raised flex flex-wrap items-center gap-3.5 sm:gap-4 rounded-2xl p-3 text-xs"
     >
       {/* Tuning Group */}
-      <div className="flex flex-col gap-2">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--label)]/80">
+      <div className="flex flex-col gap-1 shrink-0">
+        <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--label)]/70">
           {t("tuningCapo.tuningGroup", "Tuning")}
         </span>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1.5 h-7">
           {TUNING_PRESETS.map((preset) => (
-            <SkeuButton key={preset.name} onClick={() => onSetTuning(preset.tuning)}>
+            <SkeuButton
+              key={preset.name}
+              onClick={() => onSetTuning(preset.tuning)}
+              className="h-7 px-2.5 text-xs font-medium !py-0 flex items-center justify-center"
+            >
               {preset.name}
             </SkeuButton>
           ))}
@@ -77,6 +81,7 @@ export function TuningCapoControls({
             <SkeuButton
               onClick={() => setShowCustomTuning((prev) => !prev)}
               active={showCustomTuning}
+              className="h-7 px-2.5 text-xs font-medium !py-0 flex items-center justify-center"
             >
               {t("tuningCapo.customTuning", "Tek Tek Ayarla")}
             </SkeuButton>
@@ -103,7 +108,7 @@ export function TuningCapoControls({
                           defaultValue={tuning[arrayIndex]}
                           onBlur={(event) => onSetTuningString(arrayIndex, event.target.value)}
                           onChange={(event) => onSetTuningString(arrayIndex, event.target.value)}
-                          className="w-12 text-center font-mono"
+                          className="h-7 w-12 text-center font-mono text-xs !py-0"
                         />
                       </label>
                     );
@@ -115,12 +120,15 @@ export function TuningCapoControls({
         </div>
       </div>
 
+      {/* Divider */}
+      <div className="hidden sm:block h-6 w-px bg-[var(--shadow-dark)]/15 self-end mb-0.5 shrink-0" />
+
       {/* Capo Group */}
-      <div className="flex flex-col gap-2">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--label)]/80">
+      <div className="flex flex-col gap-1 shrink-0">
+        <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--label)]/70">
           {t("tuningCapo.capoGroup", "Capo")}
         </span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 h-7">
           <SkeuInput
             type="number"
             min={0}
@@ -128,9 +136,13 @@ export function TuningCapoControls({
             value={localCapo}
             onChange={(e) => handleCapoChange(e.target.value)}
             onBlur={() => setLocalCapo(capo.toString())}
-            className="w-14 text-center font-mono"
+            className="h-7 w-12 text-center font-mono text-xs !py-0"
           />
-          {capo > 0 ? <StatusPill>{t("tuningCapo.capoValue", { n: capo })}</StatusPill> : null}
+          {capo > 0 ? (
+            <div className="h-7 flex items-center">
+              <StatusPill>{t("tuningCapo.capoValue", { n: capo })}</StatusPill>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

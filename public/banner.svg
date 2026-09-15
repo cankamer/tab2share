@@ -1,152 +1,150 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 280" width="100%" height="280">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="100%" height="240">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#18181b" />
-      <stop offset="50%" stop-color="#27272a" />
-      <stop offset="100%" stop-color="#18181b" />
-    </linearGradient>
-
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ef4444" />
-      <stop offset="50%" stop-color="#f97316" />
-      <stop offset="100%" stop-color="#e11d48" />
-    </linearGradient>
-
-    <filter id="neumorphicOuter" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="8" dy="8" stdDeviation="12" flood-color="#09090b" flood-opacity="0.9" />
-      <feDropShadow dx="-6" dy="-6" stdDeviation="10" flood-color="#3f3f46" flood-opacity="0.35" />
+    <!-- Soft Neumorphic Raised Shadows (Light from Top-Left: -135deg) -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="8" dy="10" stdDeviation="14" flood-color="#08080a" flood-opacity="0.85" />
+      <feDropShadow dx="-6" dy="-6" stdDeviation="10" flood-color="#383842" flood-opacity="0.28" />
     </filter>
 
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    <filter id="dialShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="5" dy="6" stdDeviation="8" flood-color="#0a0a0d" flood-opacity="0.8" />
+      <feDropShadow dx="-4" dy="-4" stdDeviation="6" flood-color="#3a3a44" flood-opacity="0.3" />
+    </filter>
+
+    <filter id="chipShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2.5" dy="3.5" stdDeviation="4" flood-color="#0a0a0c" flood-opacity="0.75" />
+      <feDropShadow dx="-2" dy="-2" stdDeviation="3" flood-color="#383840" flood-opacity="0.25" />
+    </filter>
+
+    <!-- Inset Well Shadow for Sunken Dial Ring -->
+    <filter id="insetRing" x="-20%" y="-20%" width="140%" height="140%">
+      <feOffset dx="3" dy="3" />
+      <feGaussianBlur stdDeviation="4" result="offset-blur" />
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
+      <feFlood flood-color="#060608" flood-opacity="0.9" result="color" />
+      <feComposite operator="in" in="color" in2="inverse" result="shadow" />
+      <feComposite operator="over" in="shadow" in2="SourceGraphic" />
     </filter>
 
     <style>
-      .title-text {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      .brand-title {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
         font-weight: 900;
-        font-size: 54px;
-        letter-spacing: 7px;
-        fill: url(#accentGrad);
-        filter: url(#glow);
+        font-size: 40px;
+        letter-spacing: 6px;
+        fill: #f4f4f5;
       }
 
-      .subtitle-text {
+      .brand-subtitle {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 13.5px;
+        font-weight: 500;
+        fill: #8e8e98;
+        letter-spacing: 0.4px;
+      }
+
+      .chip-text {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 16px;
+        font-size: 11px;
         font-weight: 600;
+        fill: #d4d4d8;
+        letter-spacing: 0.8px;
+      }
+
+      .status-pill-bg {
+        fill: #161619;
+        stroke: #2c2c32;
+        stroke-width: 1;
+      }
+
+      .status-pill-text {
+        font-family: ui-monospace, SFMono-Regular, monospace;
+        font-size: 10px;
+        font-weight: 700;
         fill: #a1a1aa;
-        letter-spacing: 1.5px;
+        letter-spacing: 1.4px;
       }
 
-      .string-line {
-        stroke: #3f3f46;
-        stroke-width: 1.2;
-        stroke-dasharray: 4 4;
+      @keyframes ledBlink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.45; }
       }
 
-      .note-badge {
-        fill: #27272a;
-        stroke: #ef4444;
-        stroke-width: 1.5;
-        rx: 12px;
+      .anim-led {
+        animation: ledBlink 3s ease-in-out infinite;
       }
-
-      /* Animations */
-      @keyframes pulseGlow {
-        0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4)); }
-        50% { opacity: 1; filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.85)); }
-      }
-
-      @keyframes textCycle {
-        0%, 3% { opacity: 0; transform: translateY(10px); }
-        8%, 20% { opacity: 1; transform: translateY(0); }
-        25%, 100% { opacity: 0; transform: translateY(-10px); }
-      }
-
-      @keyframes textCycle2 {
-        0%, 25% { opacity: 0; transform: translateY(10px); }
-        28%, 45% { opacity: 1; transform: translateY(0); }
-        50%, 100% { opacity: 0; transform: translateY(-10px); }
-      }
-
-      @keyframes textCycle3 {
-        0%, 50% { opacity: 0; transform: translateY(10px); }
-        53%, 70% { opacity: 1; transform: translateY(0); }
-        75%, 100% { opacity: 0; transform: translateY(-10px); }
-      }
-
-      @keyframes textCycle4 {
-        0%, 75% { opacity: 0; transform: translateY(10px); }
-        78%, 95% { opacity: 1; transform: translateY(0); }
-        99%, 100% { opacity: 0; transform: translateY(-10px); }
-      }
-
-      .animated-title {
-        animation: pulseGlow 4s ease-in-out infinite;
-      }
-
-      .cycle-1 { animation: textCycle 12s ease-in-out infinite; }
-      .cycle-2 { animation: textCycle2 12s ease-in-out infinite; }
-      .cycle-3 { animation: textCycle3 12s ease-in-out infinite; }
-      .cycle-4 { animation: textCycle4 12s ease-in-out infinite; }
     </style>
   </defs>
 
-  <!-- Outer Neumorphic Card Body -->
-  <rect x="25" y="20" width="850" height="240" rx="28" fill="url(#bgGrad)" filter="url(#neumorphicOuter)" stroke="#3f3f46" stroke-width="1" />
+  <!-- Outer Neumorphic Card Faceplate -->
+  <rect x="18" y="15" width="864" height="210" rx="22" fill="#222226" stroke="#2d2d34" stroke-width="1.2" filter="url(#cardShadow)" />
 
-  <!-- Inner Display Screen Well -->
-  <rect x="45" y="38" width="810" height="204" rx="20" fill="#121214" stroke="#27272a" stroke-width="1.5" />
+  <!-- Subtle Inset Bezel Groove -->
+  <rect x="28" y="25" width="844" height="190" rx="16" fill="none" stroke="#1a1a1d" stroke-width="1.5" opacity="0.6" />
 
-  <!-- Animated Guitar Strings Background -->
-  <g opacity="0.3">
-    <line x1="60" y1="65" x2="840" y2="65" class="string-line" />
-    <line x1="60" y1="95" x2="840" y2="95" class="string-line" />
-    <line x1="60" y1="125" x2="840" y2="125" class="string-line" />
-    <line x1="60" y1="155" x2="840" y2="155" class="string-line" />
-    <line x1="60" y1="185" x2="840" y2="185" class="string-line" />
-    <line x1="60" y1="215" x2="840" y2="215" class="string-line" />
+  <!-- Left Neumorphic Emblem / Dial Hub -->
+  <g transform="translate(112, 120)">
+    <!-- Raised Outer Dial -->
+    <circle cx="0" cy="0" r="54" fill="#222226" stroke="#2e2e36" stroke-width="1.2" filter="url(#dialShadow)" />
+
+    <!-- Inset Inner Recess Ring -->
+    <circle cx="0" cy="0" r="42" fill="#18181b" stroke="#24242a" stroke-width="1" filter="url(#insetRing)" />
+
+    <!-- Tactile Raised Guitar Pick / Note Core -->
+    <path d="M0 -24 C-17 -22, -26 -6, -20 14 C-14 30, 0 36, 0 36 C0 36, 14 30, 20 14 C26 -6, 17 -22, 0 -24 Z"
+          fill="#242429" stroke="#2f2f38" stroke-width="1.2" />
+
+    <!-- Musical Note Motif with Red Accent Stem -->
+    <circle cx="-5" cy="14" r="4.5" fill="#f4f4f5" />
+    <circle cx="7" cy="9" r="4" fill="#f4f4f5" />
+    <path d="M-1 14 L-1 -8 L11 -12 L11 9" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" fill="none" />
+    <path d="M-1 -3 L11 -7" stroke="#ef4444" stroke-width="2" stroke-linecap="round" />
   </g>
 
-  <!-- Animated Logo Icon -->
-  <g transform="translate(100, 75)">
-    <!-- Soft Neumorphic Circular Icon Hub -->
-    <circle cx="45" cy="45" r="42" fill="#202024" stroke="#3f3f46" stroke-width="2" />
-    <!-- Guitar Pick / Note Path -->
-    <path d="M45 18 C30 20, 20 35, 25 54 C30 72, 45 78, 45 78 C45 78, 60 72, 65 54 C70 35, 60 20, 45 18 Z" fill="url(#accentGrad)" opacity="0.95" />
-    <!-- Musical Note inside Pick -->
-    <circle cx="40" cy="56" r="5" fill="#ffffff" />
-    <circle cx="52" cy="50" r="4.5" fill="#ffffff" />
-    <path d="M44 56 L44 32 L56 27 L56 50" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" fill="none" />
-    <path d="M44 38 L56 33" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
-  </g>
+  <!-- Vertical Subtle Divider between Hub & Content -->
+  <line x1="195" y1="45" x2="195" y2="195" stroke="#2a2a30" stroke-width="1" opacity="0.7" />
 
-  <!-- App Title -->
-  <g transform="translate(230, 115)" class="animated-title">
-    <text x="0" y="0" class="title-text">TAB2SHARE</text>
-  </g>
+  <!-- Main Content Cluster -->
+  <g transform="translate(225, 0)">
+    <!-- Top Row: Brand Title & Status Pill -->
+    <g transform="translate(0, 78)">
+      <text x="0" y="0" class="brand-title">TAB<tspan fill="#ef4444">2</tspan>SHARE</text>
 
-  <!-- Tagline Pill -->
-  <g transform="translate(230, 130)">
-    <rect x="0" y="0" width="220" height="22" rx="11" fill="#27272a" stroke="#ef4444" stroke-width="0.8" opacity="0.85" />
-    <text x="110" y="15" text-anchor="middle" font-family="system-ui" font-size="11" font-weight="700" fill="#f87171" letter-spacing="1.2px">NEUMORPHIC TAB SUITE</text>
-  </g>
-
-  <!-- Dynamic Animated Carousel Subtitle -->
-  <g transform="translate(230, 195)">
-    <g class="cycle-1">
-      <text x="0" y="0" class="subtitle-text">🎸 Next-Gen Neumorphic Guitar Tab &amp; Notation Editor</text>
+      <!-- Status Pill with Pulsing LED -->
+      <g transform="translate(370, -26)">
+        <rect width="190" height="26" rx="13" class="status-pill-bg" />
+        <circle cx="15" cy="13" r="3.5" fill="#ef4444" class="anim-led" />
+        <text x="27" y="17" class="status-pill-text">NEUMORPHIC SUITE</text>
+      </g>
     </g>
-    <g class="cycle-2">
-      <text x="0" y="0" class="subtitle-text">🎬 9:16 Instagram Reel &amp; TikTok Auto-Split Exporter</text>
+
+    <!-- Middle Row: Subtitle -->
+    <g transform="translate(0, 114)">
+      <text x="0" y="0" class="brand-subtitle">Modern Neumorphic Desktop Guitar Tab Editor &amp; Transparent Video Exporter</text>
     </g>
-    <g class="cycle-3">
-      <text x="0" y="0" class="subtitle-text">🎡 30-Chord Interactive Radial Wheel &amp; Visual Fretboard</text>
-    </g>
-    <g class="cycle-4">
-      <text x="0" y="0" class="subtitle-text">🌊 Butter-Smooth MX Master 3S 120Hz Side-Wheel Scrolling</text>
+
+    <!-- Bottom Row: Tactile Feature Chips -->
+    <g transform="translate(0, 145)">
+      <!-- Chip 1: Reel Exporter -->
+      <g transform="translate(0, 0)">
+        <rect width="186" height="30" rx="8" fill="#222226" stroke="#2d2d34" stroke-width="1" filter="url(#chipShadow)" />
+        <circle cx="14" cy="15" r="2.5" fill="#ef4444" />
+        <text x="25" y="19" class="chip-text">9:16 Reel Auto-Split</text>
+      </g>
+
+      <!-- Chip 2: Radial Chord Hub -->
+      <g transform="translate(200, 0)">
+        <rect width="176" height="30" rx="8" fill="#222226" stroke="#2d2d34" stroke-width="1" filter="url(#chipShadow)" />
+        <circle cx="14" cy="15" r="2.5" fill="#ef4444" />
+        <text x="25" y="19" class="chip-text">Radial Chord Hub</text>
+      </g>
+
+      <!-- Chip 3: Smooth Scroll -->
+      <g transform="translate(390, 0)">
+        <rect width="170" height="30" rx="8" fill="#222226" stroke="#2d2d34" stroke-width="1" filter="url(#chipShadow)" />
+        <circle cx="14" cy="15" r="2.5" fill="#ef4444" />
+        <text x="25" y="19" class="chip-text">120Hz Soft Scroll</text>
+      </g>
     </g>
   </g>
 </svg>

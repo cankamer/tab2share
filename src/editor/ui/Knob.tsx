@@ -5,13 +5,23 @@ interface KnobProps {
   min: number;
   max: number;
   size?: number;
+  showMinMax?: boolean;
+  title?: string;
   onChange?: (value: number) => void;
 }
 
 const START_ANGLE = -135;
 const SWEEP_DEGREES = 270;
 
-export function Knob({ value, min, max, size = 36, onChange }: KnobProps) {
+export function Knob({
+  value,
+  min,
+  max,
+  size = 28,
+  showMinMax = false,
+  title,
+  onChange,
+}: KnobProps) {
   const fraction = max > min ? Math.max(0, Math.min(1, (value - min) / (max - min))) : 0;
   const angle = START_ANGLE + fraction * SWEEP_DEGREES;
 
@@ -41,9 +51,13 @@ export function Knob({ value, min, max, size = 36, onChange }: KnobProps) {
   }, [min, max, onChange]);
 
   return (
-    <div className="flex flex-col items-center" style={{ width: size + 16 }}>
-      <div 
-        className="raised relative rounded-full" 
+    <div
+      className="flex flex-col items-center justify-center shrink-0"
+      style={{ width: showMinMax ? size + 16 : size }}
+    >
+      <div
+        className="raised relative rounded-full"
+        title={title ?? `${value} (${min}-${max})`}
         style={{ width: size, height: size, cursor: onChange ? "ns-resize" : "default" }}
         onMouseDown={(e) => {
           if (!onChange) return;
@@ -52,7 +66,7 @@ export function Knob({ value, min, max, size = 36, onChange }: KnobProps) {
         }}
       >
         <div
-          className="absolute left-1/2 top-1/2"
+          className="absolute left-1/2 top-1/2 pointer-events-none"
           style={{
             width: 2,
             height: size * 0.38,
@@ -62,10 +76,12 @@ export function Knob({ value, min, max, size = 36, onChange }: KnobProps) {
           }}
         />
       </div>
-      <div className="mt-1 flex w-full justify-between text-[9px]" style={{ color: "var(--label)" }}>
-        <span>{min}</span>
-        <span>{max}</span>
-      </div>
+      {showMinMax ? (
+        <div className="mt-1 flex w-full justify-between text-[9px]" style={{ color: "var(--label)" }}>
+          <span>{min}</span>
+          <span>{max}</span>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -29,11 +29,11 @@
 
 <br />
 
-[✨ Canlı Animasyonlu Özellikler](#-canlı-animasyonlu-özellikler) •
-[🎨 Neumorphic Tasarım Felsefesi](#-neumorphic-soft-ui-mimarisi) •
-[🎬 9:16 Reel Export](#-reel--tiktok-için-şeffaf-export) •
-[🎹 Klavye Kısayolları](#-kapsamlı-klavye-kısayolları) •
-[🚀 Kurulum ve Derleme](#-kurulum-ve-çalıştırma)
+[Özellikler](#özellikler) •
+[Neumorphic Mimari](#neumorphic-soft-ui-mimarisi) •
+[Reel & TikTok Export](#3-reel--tiktok-için-şeffaf-export) •
+[Klavye Kısayolları](#klavye-kısayolları) •
+[Kurulum ve Çalıştırma](#kurulum-ve-çalıştırma)
 
 ---
 
@@ -41,9 +41,9 @@
 
 <br />
 
-## 🌟 Canlı Animasyonlu Özellikler
+## Özellikler
 
-### 🎼 1. Vektörel Tab Canvas & Gerçek Zamanlı Efektler
+### 1. Vektörel Tab Tuvali & Gerçek Zamanlı Efektler
 
 Tab2Share'in notalama motoru, 2K/4K ekranlarda piksel bozulması olmadan pürüzsüz vektörel nota çizer.
 
@@ -52,21 +52,21 @@ Tab2Share'in notalama motoru, 2K/4K ekranlarda piksel bozulması olmadan pürüz
 </div>
 
 - **Dinamik Bend Okları:** Bend derecesine (`½`, `full`, `1½`) göre sağa kıvrılarak en üst tele yükselen oklar (`▲`) ve yayın bırakılması (`bendRelease` / `▼`).
-- **Canlı Turuncu Vibrato:** Tab çizgilerinin üzerine konumlanan dalgalı turuncu vibrato sembolleri.
+- **Canlı Vibrato:** Tab çizgilerinin üzerine konumlanan dalgalı vibrato sembolleri.
 - **Yönlü Slaytlar (Slides):** Nota soluna hizalanan `/` (aşağıdan) ve `\` (yukarıdan) slide gösterimleri.
 - **Palm Mute & Let Ring:** Ölçüler boyunca uzanan alt braketler (`PM ───|`, `let ring ───|`).
 - **Yüzen Neumorphic Scrollbar:** Ekran yüksekliğini sıkıştırmayan, saydam ve Logitech MX Master 3S yanal tekerleğiyle (thumb-wheel) senkronize 120Hz akıcı kaydırma.
 
 ---
 
-### 🎡 2. Dairesel Akor Çarkı (Radial Chord Wheel)
+### 2. Dairesel Akor Çarkı (Radial Chord Wheel)
 
 Klasik sıkıcı buton ızgaraları yerine dokunsal bir çark mimarisi!
 
 <table>
   <tr>
     <td width="55%">
-      <h4>✨ İnteraktif Dairesel Çark:</h4>
+      <h4>İnteraktif Dairesel Çark:</h4>
       <ul>
         <li><b>30+ Hazır Akor:</b> Major, Minor, Seventh, Sus ve Power akor aileleri.</li>
         <li><b>Merkeze Açılan SVG Popover:</b> Herhangi bir akor butonunun üzerine gelindiğinde, çarkın merkezine (hub) doğru tema uyumlu minyatür akor diyagramı açılır.</li>
@@ -82,7 +82,7 @@ Klasik sıkıcı buton ızgaraları yerine dokunsal bir çark mimarisi!
 
 ---
 
-### 🎬 3. Reel & TikTok İçin Şeffaf Export
+### 3. Reel & TikTok İçin Şeffaf Export
 
 Video kurgu programlarında (CapCut, Premiere Pro, DaVinci Resolve) kullanmak üzere özel olarak optimize edilmiş çıktı motoru.
 
@@ -92,12 +92,12 @@ Video kurgu programlarında (CapCut, Premiere Pro, DaVinci Resolve) kullanmak ü
       <img src="./public/demo-reel.svg" alt="Animated Reel Export Demo" width="100%" />
     </td>
     <td width="55%">
-      <h4>📱 Sosyal Medya Odaklı Export:</h4>
+      <h4>Sosyal Medya Odaklı Export:</h4>
       <ul>
-        <li><b>🎬 9:16 Reel Formatı (1080 × 1920 px):</b> Ölçü sınırlarından taşmadan 4 satıra bölünmüş, dikey video uyumlu hazır görsel.</li>
-        <li><b>📜 Tek Uzun Şerit:</b> Yatay kaydırma animasyonları için tek satır kesintisiz şerit.</li>
-        <li><b>✨ Şeffaf Alpha Kanalı:</b> Siyah kutu olmadan, videonuzun üzerine doğrudan yerleşen şeffaf PNG çıktısı.</li>
-        <li><b>✂️ Akıllı Parçalama (Part Splitting):</b> 4 satıra sığmayan uzun sololar otomatik olarak okunabilirlik bozulmadan <code>{proje}_part1.png</code>, <code>{proje}_part2.png</code> olarak dışa aktarılır.</li>
+        <li><b>9:16 Dikey Format (1080 × 1920 px):</b> Ölçü sınırlarından taşmadan 4 satıra bölünmüş, dikey video uyumlu hazır görsel.</li>
+        <li><b>Tek Uzun Şerit:</b> Yatay kaydırma animasyonları için tek satır kesintisiz şerit.</li>
+        <li><b>Şeffaf Alpha Kanalı:</b> Siyah kutu olmadan, videonuzun üzerine doğrudan yerleşen şeffaf PNG çıktısı.</li>
+        <li><b>Akıllı Parçalama (Part Splitting):</b> 4 satıra sığmayan uzun sololar otomatik olarak okunabilirlik bozulmadan <code>{proje}_part1.png</code>, <code>{proje}_part2.png</code> olarak dışa aktarılır.</li>
       </ul>
     </td>
   </tr>
@@ -105,7 +105,7 @@ Video kurgu programlarında (CapCut, Premiere Pro, DaVinci Resolve) kullanmak ü
 
 ---
 
-## 🎨 Neumorphic (Soft UI) Mimarisi
+## Neumorphic (Soft UI) Mimarisi
 
 Tab2Share, düz (flat) grafikler yerine gerçek bir stüdyo donanımı hissi veren **Skeuomorphic Soft UI** prensibine dayanır:
 
@@ -129,7 +129,7 @@ Tab2Share, düz (flat) grafikler yerine gerçek bir stüdyo donanımı hissi ver
 
 ---
 
-## 🎹 Kapsamlı Klavye Kısayolları
+## Klavye Kısayolları
 
 Fareye dokunmadan klavyeden anında tab yazımı:
 
@@ -155,7 +155,7 @@ Fareye dokunmadan klavyeden anında tab yazımı:
 
 ---
 
-## 🛠️ Proje Dizin Yapısı
+## Proje Dizin Yapısı
 
 ```
 Tab2Share/
@@ -183,7 +183,7 @@ Tab2Share/
 
 ---
 
-## 🚀 Kurulum ve Çalıştırma
+## Kurulum ve Çalıştırma
 
 ### Ön Gereksinimler
 - [Node.js](https://nodejs.org/) (v18 veya üzeri)
@@ -216,6 +216,6 @@ npm run build
 
 <div align="center">
 
-Made with ❤️ and pure passion for Guitarists & Music Creators.
+Made with passion for Guitarists & Music Creators.
 
 </div>
