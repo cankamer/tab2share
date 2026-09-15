@@ -90,7 +90,7 @@
     </g>
 
     <!-- Social Media UI Overlay (Reels / TikTok icons) -->
-    <g transform="translate(290, 240)">
+    <g transform="translate(290, 175)">
       <!-- Like Heart -->
       <circle cx="15" cy="0" r="14" fill="#000000" opacity="0.4" />
       <path d="M15 -4 C12 -9, 6 -6, 6 -1 C6 5, 15 10, 15 10 C15 10, 24 5, 24 -1 C24 -6, 18 -9, 15 -4 Z" fill="#ef4444" />
@@ -113,34 +113,36 @@
     </g>
 
     <!-- Tab2Share Animated Transparent Alpha Tab Overlay at Bottom (always docked, fully visible) -->
-    <g class="anim-overlay" transform="translate(38, 328)" filter="url(#overlayGlow)">
-      <!-- Frosted / Semi-transparent Tab Backdrop -->
-      <rect x="0" y="0" width="284" height="110" rx="14" fill="#09090b" opacity="0.9" stroke="#ef4444" stroke-width="1.2" class="anim-overlay-border" />
-      
-      <!-- Reel Part Badge -->
-      <rect x="8" y="8" width="54" height="16" rx="8" fill="#ef4444" />
-      <text x="35" y="19" font-family="ui-monospace" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">PART 1/2</text>
+    <g transform="translate(38, 328)" filter="url(#overlayGlow)">
+      <g class="anim-overlay">
+        <!-- Frosted / Semi-transparent Tab Backdrop -->
+        <rect x="0" y="0" width="284" height="110" rx="14" fill="#09090b" opacity="0.9" stroke="#ef4444" stroke-width="1.2" class="anim-overlay-border" />
+        
+        <!-- Reel Part Badge -->
+        <rect x="8" y="8" width="54" height="16" rx="8" fill="#ef4444" />
+        <text x="35" y="19" font-family="ui-monospace" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">PART 1/2</text>
 
-      <!-- 4 Staff Strings in Reel Preview -->
-      <g transform="translate(16, 38)">
-        <line x1="0" y1="0" x2="252" y2="0" stroke="#333338" stroke-width="1.2" />
-        <line x1="0" y1="12" x2="252" y2="12" stroke="#333338" stroke-width="1.2" />
-        <line x1="0" y1="24" x2="252" y2="24" stroke="#333338" stroke-width="1.2" />
-        <line x1="0" y1="36" x2="252" y2="36" stroke="#333338" stroke-width="1.2" />
-        <line x1="0" y1="48" x2="252" y2="48" stroke="#333338" stroke-width="1.2" />
-        <line x1="0" y1="60" x2="252" y2="60" stroke="#333338" stroke-width="1.2" />
+        <!-- 4 Staff Strings in Reel Preview -->
+        <g transform="translate(16, 38)">
+          <line x1="0" y1="0" x2="252" y2="0" stroke="#333338" stroke-width="1.2" />
+          <line x1="0" y1="12" x2="252" y2="12" stroke="#333338" stroke-width="1.2" />
+          <line x1="0" y1="24" x2="252" y2="24" stroke="#333338" stroke-width="1.2" />
+          <line x1="0" y1="36" x2="252" y2="36" stroke="#333338" stroke-width="1.2" />
+          <line x1="0" y1="48" x2="252" y2="48" stroke="#333338" stroke-width="1.2" />
+          <line x1="0" y1="60" x2="252" y2="60" stroke="#333338" stroke-width="1.2" />
 
-        <!-- Measure Barlines -->
-        <line x1="126" y1="0" x2="126" y2="60" stroke="#52525b" stroke-width="1.5" />
+          <!-- Measure Barlines -->
+          <line x1="126" y1="0" x2="126" y2="60" stroke="#52525b" stroke-width="1.5" />
 
-        <!-- Fret Numbers -->
-        <text x="25" y="28" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">7</text>
-        <text x="55" y="16" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">8</text>
-        <text x="85" y="4" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#60a5fa" text-anchor="middle">10b</text>
+          <!-- Fret Numbers -->
+          <text x="25" y="28" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">7</text>
+          <text x="55" y="16" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">8</text>
+          <text x="85" y="4" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#60a5fa" text-anchor="middle">10b</text>
 
-        <text x="155" y="4" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">10</text>
-        <text x="185" y="16" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">8</text>
-        <text x="215" y="28" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#f97316" text-anchor="middle">~9</text>
+          <text x="155" y="4" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">10</text>
+          <text x="185" y="16" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">8</text>
+          <text x="215" y="28" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#f97316" text-anchor="middle">~9</text>
+        </g>
       </g>
     </g>
 

@@ -110,11 +110,11 @@ function App() {
   }, [themeChoice]);
 
   useEffect(() => {
-    try {
-      getCurrentWindow().maximize();
-    } catch {
-      // Ignore when running outside Tauri desktop container
-    }
+    getCurrentWindow()
+      .maximize()
+      .catch(() => {
+        // Ignore when running outside Tauri desktop container or lacking permission
+      });
   }, []);
 
   useEffect(() => {

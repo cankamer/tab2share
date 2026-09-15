@@ -7,6 +7,7 @@
     "core:default",
     "core:window:allow-set-title",
     "core:window:allow-close",
+    "core:window:allow-maximize",
     "opener:default",
     "dialog:default",
     "fs:allow-read-text-file",
