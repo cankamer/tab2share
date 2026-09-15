@@ -15,9 +15,9 @@
   --shadow-dark: #a4a4a6;
   --distance: 4px;
   --blur: 9px;
-  --screen: #171717;
-  --screen-line: #232323;
-  --screen-text: #f2f2f2;
+  --screen: #ffffff;
+  --screen-line: #e4e4e7;
+  --screen-text: #171717;
   --label: #6b6b6f;
   --accent: #d4372b;
 }
@@ -31,8 +31,8 @@
     --control-text: #e8e8e8;
     --shadow-light: #404043;
     --shadow-dark: #141415;
-    --screen: #0c0c0c;
-    --screen-line: #161616;
+    --screen: #171717;
+    --screen-line: #232323;
     --screen-text: #ededed;
     --label: #9a9a9a;
     --accent: #e04638;
@@ -47,8 +47,8 @@
   --control-text: #e8e8e8;
   --shadow-light: #404043;
   --shadow-dark: #141415;
-  --screen: #0c0c0c;
-  --screen-line: #161616;
+  --screen: #171717;
+  --screen-line: #232323;
   --screen-text: #ededed;
   --label: #9a9a9a;
   --accent: #e04638;
@@ -131,6 +131,9 @@ button:hover:not(:disabled),
 .tab-screen {
   position: relative;
   background: var(--screen);
+}
+
+.tab-screen-rim {
   box-shadow:
     inset var(--distance) var(--distance) var(--blur) var(--shadow-dark),
     inset calc(var(--distance) * -1) calc(var(--distance) * -1) var(--blur) var(--shadow-light);
@@ -143,8 +146,8 @@ button:hover:not(:disabled),
   gap: 4px;
   padding: 2px 8px;
   border-radius: 9999px;
-  background: var(--screen);
-  color: var(--screen-text);
+  background: #18181b;
+  color: #f4f4f5;
   font-size: 11px;
   font-family: ui-monospace, monospace;
   white-space: nowrap;

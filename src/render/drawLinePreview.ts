@@ -18,11 +18,8 @@ import {
   WATERMARK_MARGIN,
   WATERMARK_OPACITY,
   WATERMARK_TEXT,
+  type TabPalette,
 } from "./constants";
-
-// Section 10.2's render theme is independent of the app's own (section 10.1) theme — this
-// module is only ever the export/preview canvas, so it always uses the light palette.
-const PALETTE = LIGHT_PALETTE;
 
 export function singleLineHeight(): number {
   const tabBottomY = TAB_TOP_MARGIN + (STRING_COUNT - 1) * STRING_SPACING;
@@ -41,11 +38,31 @@ export function computePreviewSize(lines: LineLayoutLine[], topOffset = 0): { wi
 }
 
 export interface DrawLinePreviewOptions {
-  /** Live editor preview wants an opaque page behind the tab; export wants alpha (section 14). */
-  opaqueBackground?: boolean;
+  /** Live editor preview wants an opaque page behind the tab; export defaults to opaque too
+   * now (section 14 revision: exported PNGs keep their alpha channel but are never a blank
+   * cutout by default) — pass "transparent" to fall back to the old knocked-out background. */
+  background?: "opaque" | "transparent";
+  /** Which ink/background colors to draw with — "For Video"/"Tab Sheet" output theme
+   * (section 14 revision). Defaults to the light/white theme. */
+  palette?: TabPalette;
   /** Reserved blank space above the first line — where a future title block would go, so
    * `availableLines` (fewer lines when it's on) has somewhere to point. */
   topOffset?: number;
+  /** Horizontal page margin (A4 tab-sheet mode) — shifts every drawn element right by this
+   * many px without affecting the line-breaking width budget the caller already accounted for. */
+  leftOffset?: number;
+  /** The full page's pixel size to paint the background over — defaults to the natural content
+   * size when omitted. Needed for fixed-size pages (Tab Sheet's A4, Reel's 1080x1920) whose
+   * canvas is larger than the content that happens to be on it. */
+  pageWidth?: number;
+  pageHeight?: number;
+  /** "For Video" design option: fades the top and/or bottom edge out to full transparency so
+   * the strip blends into an underlying video clip instead of showing a hard-edged box. Chosen
+   * independently — a strip can fade only its top, only its bottom, both, or neither. */
+  fadeTop?: boolean;
+  fadeBottom?: boolean;
+  /** Height (px) of each fade band. */
+  edgeFadeSize?: number;
 }
 
 /**
@@ -61,14 +78,21 @@ export function drawLinePreview(
   options: DrawLinePreviewOptions = {},
 ): void {
   const topOffset = options.topOffset ?? 0;
-  const { width, height } = computePreviewSize(lines, topOffset);
+  const leftOffset = options.leftOffset ?? 0;
+  const palette = options.palette ?? LIGHT_PALETTE;
+  const natural = computePreviewSize(lines, topOffset);
+  const width = options.pageWidth ?? natural.width;
+  const height = options.pageHeight ?? natural.height;
 
-  if (options.opaqueBackground ?? true) {
-    ctx.fillStyle = PALETTE.background;
+  if ((options.background ?? "opaque") === "opaque") {
+    ctx.fillStyle = palette.background;
     ctx.fillRect(0, 0, width, height);
   } else {
     ctx.clearRect(0, 0, width, height);
   }
+
+  ctx.save();
+  ctx.translate(leftOffset, 0);
 
   const nonStandardTuning = !isStandardTuning(project.track.tuning);
   const lineHeight = singleLineHeight();
@@ -85,10 +109,54 @@ export function drawLinePreview(
       topOffset + lineIndex * (lineHeight + LINE_GAP),
       nonStandardTuning,
       globalFlatBeats,
+      palette,
     );
   });
 
-  drawCapoLabel(ctx, project.track.capo, PALETTE);
+  drawCapoLabel(ctx, project.track.capo, palette);
+  ctx.restore();
+
+  if (options.fadeTop || options.fadeBottom) {
+    applyEdgeFade(ctx, width, height, options.edgeFadeSize ?? Math.round(height * 0.12), {
+      top: options.fadeTop ?? false,
+      bottom: options.fadeBottom ?? false,
+    });
+  }
+}
+
+/** "For Video" edge fade: dissolves the chosen top and/or bottom band of the already-painted
+ * page to transparent via a destination-out gradient, so background *and* content fade
+ * together. */
+function applyEdgeFade(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  fadeSize: number,
+  edges: { top: boolean; bottom: boolean },
+): void {
+  const size = Math.max(0, Math.min(fadeSize, height / 2));
+  if (size <= 0) return;
+
+  ctx.save();
+  ctx.globalCompositeOperation = "destination-out";
+
+  if (edges.top) {
+    const top = ctx.createLinearGradient(0, 0, 0, size);
+    top.addColorStop(0, "rgba(0,0,0,1)");
+    top.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = top;
+    ctx.fillRect(0, 0, width, size);
+  }
+
+  if (edges.bottom) {
+    const bottom = ctx.createLinearGradient(0, height - size, 0, height);
+    bottom.addColorStop(0, "rgba(0,0,0,0)");
+    bottom.addColorStop(1, "rgba(0,0,0,1)");
+    ctx.fillStyle = bottom;
+    ctx.fillRect(0, height - size, width, size);
+  }
+
+  ctx.restore();
 }
 
 function drawSingleLine(
@@ -98,6 +166,7 @@ function drawSingleLine(
   offsetY: number,
   nonStandardTuning: boolean,
   globalFlatBeats: { beat: Beat }[],
+  palette: TabPalette,
 ) {
   const stringY = Array.from({ length: STRING_COUNT }, (_, row) => offsetY + TAB_TOP_MARGIN + row * STRING_SPACING);
   const tabTopY = stringY[0];
@@ -108,7 +177,7 @@ function drawSingleLine(
 
   const lineEndX = line.measures.length > 0 ? line.measures[line.measures.length - 1].endX : 0;
 
-  ctx.strokeStyle = PALETTE.stringLine;
+  ctx.strokeStyle = palette.stringLine;
   ctx.lineWidth = 1;
   stringY.forEach((y) => {
     ctx.beginPath();
@@ -118,12 +187,12 @@ function drawSingleLine(
   });
 
   ctx.font = TUNING_LABEL_FONT;
-  ctx.fillStyle = PALETTE.tuningLabel;
+  ctx.fillStyle = palette.tuningLabel;
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
   stringY.forEach((y, row) => ctx.fillText(project.track.tuning[5 - row], 2, y));
 
-  ctx.strokeStyle = PALETTE.barline;
+  ctx.strokeStyle = palette.barline;
   ctx.lineWidth = 1;
   const drawBarline = (x: number) => {
     ctx.beginPath();
@@ -138,8 +207,8 @@ function drawSingleLine(
 
   for (const measure of line.measures) {
     for (const { beat, x, flatIndex } of measure.beats) {
-      drawRhythmStem(ctx, x, stemBaselineY, beat, PALETTE);
-      if (beat.chordRef) drawChordLabel(ctx, x, tabTopY, beat.chordRef, nonStandardTuning, PALETTE);
+      drawRhythmStem(ctx, x, stemBaselineY, beat, palette);
+      if (beat.chordRef) drawChordLabel(ctx, x, tabTopY, beat.chordRef, nonStandardTuning, palette);
 
       if (beat.isRest) continue;
       for (const note of beat.notes) {
@@ -147,21 +216,26 @@ function drawSingleLine(
         const hammerDirection = note.hammer
           ? resolveHammerDirection(globalFlatBeats, flatIndex, note.string, note.fret)
           : null;
-        drawNote(ctx, x, y, note, hammerDirection, PALETTE);
+        drawNote(ctx, x, y, note, hammerDirection, palette);
       }
     }
   }
 
-  drawFlagRuns(ctx, flatBeats, palmMuteRowY, "PM", (beat) => Boolean(beat.palmMute), PALETTE);
-  drawFlagRuns(ctx, flatBeats, letRingRowY, "let ring", (beat) => Boolean(beat.letRing), PALETTE);
+  drawFlagRuns(ctx, flatBeats, palmMuteRowY, "PM", (beat) => Boolean(beat.palmMute), palette);
+  drawFlagRuns(ctx, flatBeats, letRingRowY, "let ring", (beat) => Boolean(beat.letRing), palette);
 }
 
 /** Section 14: small, low-opacity mark in a corner of the exported image, default on. */
-export function drawWatermark(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number): void {
+export function drawWatermark(
+  ctx: CanvasRenderingContext2D,
+  canvasWidth: number,
+  canvasHeight: number,
+  palette: TabPalette = LIGHT_PALETTE,
+): void {
   ctx.save();
   ctx.globalAlpha = WATERMARK_OPACITY;
   ctx.font = WATERMARK_FONT;
-  ctx.fillStyle = PALETTE.tuningLabel;
+  ctx.fillStyle = palette.tuningLabel;
   ctx.textAlign = "right";
   ctx.textBaseline = "bottom";
   ctx.fillText(WATERMARK_TEXT, canvasWidth - WATERMARK_MARGIN, canvasHeight - WATERMARK_MARGIN);

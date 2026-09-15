@@ -92,7 +92,11 @@
     "auto": "Otomatik",
     "fixed": "Sabit",
     "titleBlock": "Başlık bloğu (bir satır ayırır: 4 → 3)",
-    "resolution": "Çözünürlük",
+    "theme": "Tema",
+    "themeLight": "Beyaz",
+    "themeDark": "Siyah",
+    "fadeTop": "Üst kenarı soldur",
+    "fadeBottom": "Alt kenarı soldur",
     "watermark": "Tab2Share etiketi",
     "export": "PNG dışa aktar...",
     "copy": "Panoya kopyala",
@@ -106,6 +110,11 @@
     "auto": "Otomatik",
     "fixed": "Sabit",
     "lineWidth": "satır genişliği (px)"
+  },
+  "exportPreview": {
+    "page": "Sayfa {{current}} / {{total}}",
+    "prevPage": "Önceki sayfa",
+    "nextPage": "Sonraki sayfa"
   },
   "menu": {
     "file": {

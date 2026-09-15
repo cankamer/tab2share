@@ -60,7 +60,7 @@ export function TabCanvas({ project, visual, onCellClick, onCellHover, onDeleteM
         onClick={handleClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => onCellHover?.(null)}
-        className={`rounded-l-none rounded-r-lg shadow-md ${onCellClick ? "cursor-pointer" : ""}`}
+        className={`rounded-l-none rounded-r-lg ${onCellClick ? "cursor-pointer" : ""}`}
       />
       {onDeleteMeasure && project.track.measures.length > 1 ? (
         <div className="absolute inset-0 pointer-events-none">

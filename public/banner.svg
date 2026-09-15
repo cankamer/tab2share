@@ -26,6 +26,19 @@
       <feComposite operator="over" in="shadow" in2="SourceGraphic" />
     </filter>
 
+    <!-- Red Guitar Pick Gradient & Shadows -->
+    <linearGradient id="pickGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f87171" />
+      <stop offset="45%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#b91c1c" />
+    </linearGradient>
+
+    <filter id="pickShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#050507" flood-opacity="0.85" />
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#ef4444" flood-opacity="0.3" />
+    </filter>
+
+
     <style>
       .brand-title {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
@@ -50,29 +63,6 @@
         fill: #d4d4d8;
         letter-spacing: 0.8px;
       }
-
-      .status-pill-bg {
-        fill: #161619;
-        stroke: #2c2c32;
-        stroke-width: 1;
-      }
-
-      .status-pill-text {
-        font-family: ui-monospace, SFMono-Regular, monospace;
-        font-size: 10px;
-        font-weight: 700;
-        fill: #a1a1aa;
-        letter-spacing: 1.4px;
-      }
-
-      @keyframes ledBlink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.45; }
-      }
-
-      .anim-led {
-        animation: ledBlink 3s ease-in-out infinite;
-      }
     </style>
   </defs>
 
@@ -90,15 +80,14 @@
     <!-- Inset Inner Recess Ring -->
     <circle cx="0" cy="0" r="42" fill="#18181b" stroke="#24242a" stroke-width="1" filter="url(#insetRing)" />
 
-    <!-- Tactile Raised Guitar Pick / Note Core -->
-    <path d="M0 -24 C-17 -22, -26 -6, -20 14 C-14 30, 0 36, 0 36 C0 36, 14 30, 20 14 C26 -6, 17 -22, 0 -24 Z"
-          fill="#242429" stroke="#2f2f38" stroke-width="1.2" />
-
-    <!-- Musical Note Motif with Red Accent Stem -->
-    <circle cx="-5" cy="14" r="4.5" fill="#f4f4f5" />
-    <circle cx="7" cy="9" r="4" fill="#f4f4f5" />
-    <path d="M-1 14 L-1 -8 L11 -12 L11 9" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" fill="none" />
-    <path d="M-1 -3 L11 -7" stroke="#ef4444" stroke-width="2" stroke-linecap="round" />
+    <!-- Red Guitar Pick Icon with Subtle Neumorphic Depth -->
+    <g filter="url(#pickShadow)">
+      <path d="M0 -25 C16 -25, 25 -14, 22 2 C19 14, 8 23, 2 26 C1 26.8, -1 26.8, -2 26 C-8 23, -19 14, -22 2 C-25 -14, -16 -25, 0 -25 Z"
+            fill="url(#pickGrad)" stroke="#fca5a5" stroke-width="0.8" stroke-opacity="0.35" />
+      <!-- Subtle tactile highlight along top edge -->
+      <path d="M-14 -19 C-5 -23, 5 -23, 14 -19"
+            stroke="#ffffff" stroke-width="1" stroke-linecap="round" opacity="0.4" fill="none" />
+    </g>
   </g>
 
   <!-- Vertical Subtle Divider between Hub & Content -->
@@ -106,16 +95,9 @@
 
   <!-- Main Content Cluster -->
   <g transform="translate(225, 0)">
-    <!-- Top Row: Brand Title & Status Pill -->
+    <!-- Top Row: Brand Title -->
     <g transform="translate(0, 78)">
       <text x="0" y="0" class="brand-title">TAB<tspan fill="#ef4444">2</tspan>SHARE</text>
-
-      <!-- Status Pill with Pulsing LED -->
-      <g transform="translate(370, -26)">
-        <rect width="190" height="26" rx="13" class="status-pill-bg" />
-        <circle cx="15" cy="13" r="3.5" fill="#ef4444" class="anim-led" />
-        <text x="27" y="17" class="status-pill-text">NEUMORPHIC SUITE</text>
-      </g>
     </g>
 
     <!-- Middle Row: Subtitle -->

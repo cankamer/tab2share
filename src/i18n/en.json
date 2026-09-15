@@ -92,7 +92,11 @@
     "auto": "Auto",
     "fixed": "Fixed",
     "titleBlock": "Title block (reserves a line: 4 → 3)",
-    "resolution": "Resolution",
+    "theme": "Theme",
+    "themeLight": "White",
+    "themeDark": "Black",
+    "fadeTop": "Fade top edge",
+    "fadeBottom": "Fade bottom edge",
     "watermark": "Tab2Share watermark",
     "export": "Export PNG...",
     "copy": "Copy to clipboard",
@@ -106,6 +110,11 @@
     "auto": "Auto",
     "fixed": "Fixed",
     "lineWidth": "line width (px)"
+  },
+  "exportPreview": {
+    "page": "Page {{current}} / {{total}}",
+    "prevPage": "Previous page",
+    "nextPage": "Next page"
   },
   "menu": {
     "file": {

@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Project } from "../model/types";
 import type { LineBreakMode } from "../render/lineLayout";
-import { exportProjectToPng, type ExportOptions, type ResolutionScale } from "../export/exportPng";
+import { exportProjectToPng, type ExportOptions, type OutputTheme } from "../export/exportPng";
 import { copyExportToClipboard } from "../export/clipboard";
 import { SkeuButton } from "./ui/SkeuButton";
 import { SkeuInput } from "./ui/SkeuInput";
@@ -20,23 +20,30 @@ interface ExportPanelProps {
   /** Controlled from the View menu's "Measures per line" submenu (section 8), shared with the menu's own state. */
   lineBreakMode: LineBreakMode;
   onLineBreakModeChange: (mode: LineBreakMode) => void;
+  /** Reports the live export settings up so the modal's preview can render exactly what
+   * export would produce (section 14 revision — the preview used to be disconnected). */
+  onOptionsChange?: (options: ExportOptions) => void;
 }
 
 /**
- * Section 14: PNG export. Strip and reel-square size modes, 1x/2x/3x resolution, the
- * title-block-reserves-a-line rule wired via a checkbox with no title-content UI behind it
- * yet, multi-part naming when a tab needs more pages than the reel square fits, a default-on
- * watermark, and Ctrl+Shift+C clipboard copy (PNG, alpha not guaranteed once on the clipboard).
- * Export/copy are also exposed via ref so the File menu (step 12) can trigger the same actions.
+ * Section 14 (revised): PNG export. "Tab Sheet" (A4, multi-page) and "For Video" (single
+ * natural-width strip) size modes at a fixed 1x resolution, a light/dark output theme, an
+ * independent top/bottom edge-fade design only for "For Video", the title-block-reserves-a-
+ * line rule, multi-part naming when a tab needs more pages than one sheet fits, a default-on
+ * watermark, and Ctrl+Shift+C clipboard copy. The page background is always opaque (the
+ * theme's color) — PNG still keeps its alpha channel, it's just never a blank cutout. Export/
+ * copy are also exposed via ref so the File menu (step 12) can trigger the same actions.
  */
 export const ExportPanel = forwardRef<ExportPanelHandle, ExportPanelProps>(function ExportPanel(
-  { project, lineBreakMode, onLineBreakModeChange },
+  { project, lineBreakMode, onLineBreakModeChange, onOptionsChange },
   ref,
 ) {
   const { t } = useTranslation();
   const [sizeKind, setSizeKind] = useState<"strip" | "reel">("reel");
   const [titleBlockEnabled, setTitleBlockEnabled] = useState(false);
-  const [resolutionScale, setResolutionScale] = useState<ResolutionScale>(1);
+  const [fadeTop, setFadeTop] = useState(false);
+  const [fadeBottom, setFadeBottom] = useState(false);
+  const [outputTheme, setOutputTheme] = useState<OutputTheme>("light");
   const [watermark, setWatermark] = useState(true);
   const [status, setStatus] = useState<Status>({ kind: "idle" });
 
@@ -45,11 +52,18 @@ export const ExportPanel = forwardRef<ExportPanelHandle, ExportPanelProps>(funct
   function currentOptions(): ExportOptions {
     return {
       sizeMode:
-        sizeKind === "strip" ? { kind: "strip" } : { kind: "reel", lineBreakMode, titleBlockEnabled },
-      resolutionScale,
+        sizeKind === "strip"
+          ? { kind: "strip", fadeTop, fadeBottom }
+          : { kind: "reel", lineBreakMode, titleBlockEnabled },
       watermark,
+      outputTheme,
     };
   }
+
+  useEffect(() => {
+    onOptionsChange?.(currentOptions());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sizeKind, titleBlockEnabled, fadeTop, fadeBottom, lineBreakMode, outputTheme, watermark]);
 
   async function handleExport() {
     try {
@@ -99,7 +113,7 @@ export const ExportPanel = forwardRef<ExportPanelHandle, ExportPanelProps>(funct
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [project, sizeKind, lineBreakMode, titleBlockEnabled, resolutionScale, watermark]);
+  }, [project, sizeKind, lineBreakMode, titleBlockEnabled, fadeTop, fadeBottom, outputTheme, watermark]);
 
   return (
     <div className="raised flex flex-col gap-3 rounded-2xl p-4 text-xs">
@@ -146,21 +160,25 @@ export const ExportPanel = forwardRef<ExportPanelHandle, ExportPanelProps>(funct
               <Toggle checked={titleBlockEnabled} onChange={setTitleBlockEnabled} label={t("exportPanel.titleBlock")} />
             </span>
           </>
-        ) : null}
+        ) : (
+          <span className="ml-2 flex items-center gap-2">
+            <Toggle checked={fadeTop} onChange={setFadeTop} label={t("exportPanel.fadeTop")} />
+            <Toggle checked={fadeBottom} onChange={setFadeBottom} label={t("exportPanel.fadeBottom")} />
+          </span>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <span style={{ color: "var(--label)" }}>{t("exportPanel.resolution")}</span>
-        {([1, 2, 3] as ResolutionScale[]).map((scale) => (
-          <SkeuButton key={scale} onClick={() => setResolutionScale(scale)} active={resolutionScale === scale}>
-            {scale}x
-          </SkeuButton>
-        ))}
+        <span style={{ color: "var(--label)" }}>{t("exportPanel.theme")}</span>
+        <SkeuButton onClick={() => setOutputTheme("light")} active={outputTheme === "light"}>
+          {t("exportPanel.themeLight")}
+        </SkeuButton>
+        <SkeuButton onClick={() => setOutputTheme("dark")} active={outputTheme === "dark"}>
+          {t("exportPanel.themeDark")}
+        </SkeuButton>
+      </div>
 
-        <span className="mx-1" style={{ color: "var(--body-edge)" }}>
-          |
-        </span>
-
+      <div className="flex flex-wrap items-center gap-2">
         <Toggle checked={watermark} onChange={setWatermark} label={t("exportPanel.watermark")} />
       </div>
 

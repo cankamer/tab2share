@@ -1,43 +1,53 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 340" width="100%" height="340">
   <defs>
-    <!-- Background & Shadow Gradients -->
-    <linearGradient id="tabBg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#141416" />
-      <stop offset="100%" stop-color="#0c0c0e" />
-    </linearGradient>
+    <!-- Soft Neumorphic Raised Chassis Shadows -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="8" dy="10" stdDeviation="14" flood-color="#060608" flood-opacity="0.85" />
+      <feDropShadow dx="-6" dy="-6" stdDeviation="10" flood-color="#383842" flood-opacity="0.25" />
+    </filter>
 
+    <!-- Tactile Chip Shadows for Readout Badges -->
+    <filter id="chipShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2.5" stdDeviation="3" flood-color="#08080a" flood-opacity="0.75" />
+      <feDropShadow dx="-1.5" dy="-1.5" stdDeviation="2.5" flood-color="#383840" flood-opacity="0.22" />
+    </filter>
+
+    <!-- Inset Screen Well Shadow -->
+    <filter id="screenInset" x="-5%" y="-5%" width="110%" height="110%">
+      <feOffset dx="3" dy="3" />
+      <feGaussianBlur stdDeviation="4.5" result="offset-blur" />
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
+      <feFlood flood-color="#050507" flood-opacity="0.9" result="color" />
+      <feComposite operator="in" in="color" in2="inverse" result="shadow" />
+      <feComposite operator="over" in="shadow" in2="SourceGraphic" />
+    </filter>
+
+    <!-- Active Cursor Glow Filter -->
+    <filter id="cursorGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ef4444" flood-opacity="0.8" />
+    </filter>
+
+    <!-- Bend Arrow Gradient -->
     <linearGradient id="bendArrowGrad" x1="0%" y1="100%" x2="0%" y2="0%">
       <stop offset="0%" stop-color="#3b82f6" />
       <stop offset="100%" stop-color="#60a5fa" />
     </linearGradient>
 
-    <filter id="screenInset" x="-5%" y="-5%" width="110%" height="110%">
-      <feOffset dx="3" dy="3" />
-      <feGaussianBlur stdDeviation="5" result="offset-blur" />
-      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
-      <feFlood flood-color="#000000" flood-opacity="0.8" result="color" />
-      <feComposite operator="in" in="color" in2="inverse" result="shadow" />
-      <feComposite operator="over" in="shadow" in2="SourceGraphic" />
-    </filter>
-
-    <filter id="cursorGlow">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ef4444" flood-opacity="0.9" />
-    </filter>
-
     <style>
-      .string-line { stroke: #2a2a2e; stroke-width: 1.5; }
-      .bar-line { stroke: #52525b; stroke-width: 2; }
-      .fret-num { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 20px; font-weight: bold; fill: #f4f4f5; text-anchor: middle; }
-      .chord-tag { font-family: system-ui, sans-serif; font-size: 15px; font-weight: 800; fill: #ef4444; }
-      .tuning-label { font-family: ui-monospace, monospace; font-size: 13px; font-weight: 700; fill: #71717a; text-anchor: middle; }
+      .string-line { stroke: #2a2a30; stroke-width: 1.3; }
+      .bar-line { stroke: #44444c; stroke-width: 1.8; }
+      .fret-num { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 18px; font-weight: 700; fill: #f4f4f5; text-anchor: middle; }
+      .chord-tag { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 18px; font-weight: 800; fill: #f4f4f5; }
+      .tuning-label { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 13px; font-weight: 700; fill: #71717a; text-anchor: middle; }
+      .badge-text { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 11px; font-weight: 700; fill: #d4d4d8; }
 
-      /* Animation Sequences */
+      /* Micro-Animations */
       @keyframes cursorStep {
-        0%, 15% { transform: translate(181px, 140px); }
-        25%, 40% { transform: translate(261px, 140px); }
-        50%, 65% { transform: translate(350px, 112px); }
-        75%, 90% { transform: translate(430px, 84px); }
-        100% { transform: translate(181px, 140px); }
+        0%, 15% { transform: translate(170px, 152px); }
+        25%, 40% { transform: translate(270px, 152px); }
+        50%, 65% { transform: translate(466px, 124px); }
+        75%, 90% { transform: translate(570px, 96px); }
+        100% { transform: translate(170px, 152px); }
       }
 
       @keyframes noteFade1 { 0%, 15% { opacity: 0; } 20%, 100% { opacity: 1; } }
@@ -45,20 +55,30 @@
       @keyframes noteFade3 { 0%, 65% { opacity: 0; } 70%, 100% { opacity: 1; } }
 
       @keyframes bendDraw {
-        0%, 65% { stroke-dashoffset: 120; opacity: 0; }
-        72% { opacity: 1; }
-        85%, 100% { stroke-dashoffset: 0; opacity: 1; }
+        0%, 68% { stroke-dashoffset: 120; opacity: 0; }
+        73% { opacity: 1; }
+        86%, 100% { stroke-dashoffset: 0; opacity: 1; }
+      }
+
+      @keyframes bendHeadFade {
+        0%, 78% { opacity: 0; }
+        86%, 100% { opacity: 1; }
       }
 
       @keyframes vibratoWave {
         0% { transform: translateX(0); }
-        50% { transform: translateX(3px) scaleY(1.15); }
+        50% { transform: translateX(3px) scaleY(1.18); }
         100% { transform: translateX(0); }
+      }
+
+      @keyframes tempoPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.35; }
       }
 
       @keyframes scrollThumbSlide {
         0%, 20% { transform: translateX(0); }
-        50%, 75% { transform: translateX(180px); }
+        50%, 75% { transform: translateX(110px); }
         100% { transform: translateX(0); }
       }
 
@@ -67,32 +87,49 @@
       .anim-note2 { animation: noteFade2 8s infinite; }
       .anim-note3 { animation: noteFade3 8s infinite; }
       .anim-bend { stroke-dasharray: 120; animation: bendDraw 8s ease-out infinite; }
-      .anim-vibrato { animation: vibratoWave 0.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .anim-bend-head { animation: bendHeadFade 8s ease-out infinite; }
+      .anim-vibrato { animation: vibratoWave 0.75s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .anim-tempo { animation: tempoPulse 0.5s ease-in-out infinite; }
       .anim-scrollbar { animation: scrollThumbSlide 8s ease-in-out infinite; }
     </style>
   </defs>
 
-  <!-- Outer Display Frame -->
-  <rect x="15" y="10" width="820" height="320" rx="20" fill="#222226" stroke="#333338" stroke-width="1.5" />
-  
-  <!-- Inset Tab Screen -->
-  <rect x="30" y="24" width="790" height="260" rx="14" fill="url(#tabBg)" stroke="#1a1a1e" stroke-width="2" />
+  <!-- Outer Neumorphic Card Faceplate -->
+  <rect x="16" y="14" width="818" height="312" rx="20" fill="#222226" stroke="#2d2d34" stroke-width="1.2" filter="url(#cardShadow)" />
 
-  <!-- Top Measure Status Bar -->
-  <g transform="translate(50, 48)">
-    <rect x="0" y="0" width="60" height="20" rx="10" fill="#1e1e24" stroke="#3f3f46" stroke-width="0.8" />
-    <text x="30" y="14" font-family="ui-monospace" font-size="11" font-weight="700" fill="#e4e4e7" text-anchor="middle">4/4</text>
+  <!-- Subtle Inset Bezel Groove -->
+  <rect x="24" y="20" width="802" height="300" rx="16" fill="none" stroke="#1a1a1d" stroke-width="1.5" opacity="0.6" />
 
-    <rect x="70" y="0" width="80" height="20" rx="10" fill="#1e1e24" stroke="#3f3f46" stroke-width="0.8" />
-    <text x="110" y="14" font-family="ui-monospace" font-size="11" font-weight="700" fill="#f59e0b" text-anchor="middle">♩ 120 BPM</text>
+  <!-- Inset Tab Screen Body -->
+  <rect x="32" y="28" width="786" height="248" rx="14" fill="#171717" stroke="#24242a" stroke-width="1.2" filter="url(#screenInset)" />
 
-    <!-- Chord Labels -->
-    <text x="210" y="16" class="chord-tag">Am7</text>
-    <text x="370" y="16" class="chord-tag">D9</text>
+  <!-- Persistent Inset Rim Overlay -->
+  <rect x="32" y="28" width="786" height="248" rx="14" fill="none" stroke="#0e0e11" stroke-width="2" opacity="0.75" />
+
+  <!-- Top Measure Status Bar: Clear Separation Between Badges and Chords -->
+  <g transform="translate(52, 42)">
+    <!-- Time Signature Badge -->
+    <g>
+      <rect x="0" y="0" width="50" height="22" rx="6" fill="#1b1b1e" stroke="#2d2d34" stroke-width="1" filter="url(#chipShadow)" />
+      <text x="25" y="15" class="badge-text" text-anchor="middle">4/4</text>
+    </g>
+
+    <!-- Tempo Badge with Pulsing LED -->
+    <g transform="translate(58, 0)">
+      <rect x="0" y="0" width="98" height="22" rx="6" fill="#1b1b1e" stroke="#2d2d34" stroke-width="1" filter="url(#chipShadow)" />
+      <circle cx="13" cy="11" r="2.8" fill="#f59e0b" class="anim-tempo" />
+      <text x="23" y="15" class="badge-text">120 BPM</text>
+    </g>
+
+    <!-- Measure 1 Chord Header: Am7 centered above measure 1 content -->
+    <text x="210" y="17" class="chord-tag">Am7</text>
+
+    <!-- Measure 2 Chord Header: D9 positioned at start of measure 2, safely left of the bend -->
+    <text x="400" y="17" class="chord-tag">D9</text>
   </g>
 
-  <!-- Tuning Labels (E A D G B e) -->
-  <g transform="translate(60, 84)">
+  <!-- Tuning Labels (e B G D A E) -->
+  <g transform="translate(56, 96)">
     <text x="0" y="5" class="tuning-label">e</text>
     <text x="0" y="33" class="tuning-label">B</text>
     <text x="0" y="61" class="tuning-label">G</text>
@@ -101,70 +138,85 @@
     <text x="0" y="145" class="tuning-label">E</text>
   </g>
 
-  <!-- Guitar Staff Strings -->
-  <g transform="translate(85, 84)">
-    <line x1="0" y1="0" x2="710" y2="0" class="string-line" />
-    <line x1="0" y1="28" x2="710" y2="28" class="string-line" />
-    <line x1="0" y1="56" x2="710" y2="56" class="string-line" />
-    <line x1="0" y1="84" x2="710" y2="84" class="string-line" />
-    <line x1="0" y1="112" x2="710" y2="112" class="string-line" />
-    <line x1="0" y1="140" x2="710" y2="140" class="string-line" />
+  <!-- Guitar Staff Strings & Notation -->
+  <g transform="translate(84, 96)">
+    <!-- 6 Staff Lines (28px spacing) -->
+    <line x1="0" y1="0" x2="636" y2="0" class="string-line" />
+    <line x1="0" y1="28" x2="636" y2="28" class="string-line" />
+    <line x1="0" y1="56" x2="636" y2="56" class="string-line" />
+    <line x1="0" y1="84" x2="636" y2="84" class="string-line" />
+    <line x1="0" y1="112" x2="636" y2="112" class="string-line" />
+    <line x1="0" y1="140" x2="636" y2="140" class="string-line" />
 
     <!-- Measure Barlines -->
-    <line x1="0" y1="0" x2="0" y2="140" class="bar-line" stroke-width="3" />
-    <line x1="260" y1="0" x2="260" y2="140" class="bar-line" />
-    <line x1="520" y1="0" x2="520" y2="140" class="bar-line" />
-    <line x1="710" y1="0" x2="710" y2="140" class="bar-line" stroke-width="3" />
+    <line x1="0" y1="0" x2="0" y2="140" class="bar-line" stroke-width="2.5" />
+    <line x1="300" y1="0" x2="300" y2="140" class="bar-line" stroke-width="1.6" />
+    <line x1="630" y1="0" x2="630" y2="140" class="bar-line" stroke-width="1.6" />
+    <line x1="636" y1="0" x2="636" y2="140" class="bar-line" stroke-width="2.5" />
 
-    <!-- Static Starting Notes -->
-    <rect x="85" y="47" width="22" height="18" fill="#141416" />
-    <text x="96" y="63" class="fret-num">5</text>
+    <!-- Beat Tick Lines Below Staff -->
+    <line x1="86" y1="148" x2="86" y2="157" stroke="#383842" stroke-width="1.5" stroke-linecap="round" />
+    <line x1="186" y1="148" x2="186" y2="157" stroke="#383842" stroke-width="1.5" stroke-linecap="round" />
+    <line x1="382" y1="148" x2="382" y2="157" stroke="#383842" stroke-width="1.5" stroke-linecap="round" />
+    <line x1="486" y1="148" x2="486" y2="157" stroke="#383842" stroke-width="1.5" stroke-linecap="round" />
 
-    <!-- Animated Entering Notes -->
+    <!-- Measure 1 Beat 1: Starting Note (Fret 5 on String 3 / G string) -->
+    <rect x="76" y="47" width="20" height="18" rx="3" fill="#171717" />
+    <text x="86" y="62" class="fret-num">5</text>
+
+    <!-- Measure 1 Beat 2: Note 7 with Vibrato Symbol Above -->
     <g class="anim-note1">
-      <rect x="165" y="47" width="22" height="18" fill="#141416" />
-      <text x="176" y="63" class="fret-num">7</text>
-      <!-- Vibrato Symbol Above -->
-      <g transform="translate(166, 38)">
+      <rect x="176" y="47" width="20" height="18" rx="3" fill="#171717" />
+      <text x="186" y="62" class="fret-num">7</text>
+      <!-- Vibrato Symbol positioned comfortably in string 2-3 row gap -->
+      <g transform="translate(177, 36)">
         <g class="anim-vibrato">
-          <path d="M0 0 Q 3 -4, 6 0 T 12 0 T 18 0" stroke="#f97316" stroke-width="2.5" fill="none" />
+          <path d="M0 0 Q 3 -4, 6 0 T 12 0 T 18 0" stroke="#f97316" stroke-width="2.2" fill="none" stroke-linecap="round" />
         </g>
       </g>
     </g>
 
+    <!-- Measure 2 Beat 1: Slide into 12 on String 2 / B string -->
     <g class="anim-note2">
-      <!-- Slide Notation -->
-      <text x="245" y="34" font-family="monospace" font-size="16" fill="#a1a1aa">/</text>
-      <rect x="254" y="19" width="22" height="18" fill="#141416" />
-      <text x="265" y="35" class="fret-num">12</text>
+      <text x="362" y="34" font-family="monospace" font-size="16" font-weight="bold" fill="#a1a1aa">/</text>
+      <rect x="370" y="19" width="24" height="18" rx="3" fill="#171717" />
+      <text x="382" y="34" class="fret-num">12</text>
     </g>
 
+    <!-- Measure 2 Beat 2: Note 14 on String 1 / e string with Upward Bend Arrow -->
     <g class="anim-note3">
-      <rect x="334" y="-9" width="22" height="18" fill="#141416" />
-      <text x="345" y="7" class="fret-num">14</text>
+      <rect x="474" y="-9" width="24" height="18" rx="3" fill="#171717" />
+      <text x="486" y="6" class="fret-num">14</text>
       
-      <!-- Bend Arrow Curve Upwards -->
+      <!-- Bend Arrow: Curves smoothly up and to the right into dedicated clear space -->
       <g class="anim-bend">
-        <path d="M345 -9 Q 365 -9, 365 -32" fill="none" stroke="url(#bendArrowGrad)" stroke-width="2.5" stroke-linecap="round" />
-        <polygon points="361,-30 365,-37 369,-30" fill="#60a5fa" />
-        <text x="372" y="-24" font-family="ui-monospace" font-size="12" font-weight="bold" fill="#60a5fa">full</text>
+        <path d="M496 -8 Q 518 -8, 518 -30" fill="none" stroke="url(#bendArrowGrad)" stroke-width="2.4" stroke-linecap="round" />
+      </g>
+      <!-- Arrowhead and "full" label fade in with the bend progression -->
+      <g class="anim-bend-head">
+        <polygon points="514,-28 518,-36 522,-28" fill="#60a5fa" />
+        <text x="526" y="-24" font-family="ui-monospace, monospace" font-size="12" font-weight="bold" fill="#60a5fa">full</text>
       </g>
     </g>
   </g>
 
-  <!-- Interactive Glowing Red Cursor Cell -->
+  <!-- Interactive Neumorphic Cursor Cell -->
   <g class="animated-cursor">
-    <rect x="-14" y="-12" width="28" height="24" rx="6" fill="none" stroke="#ef4444" stroke-width="2" filter="url(#cursorGlow)" />
+    <rect x="-15" y="-13" width="30" height="26" rx="6" fill="#ef4444" fill-opacity="0.12" stroke="#ef4444" stroke-width="1.8" filter="url(#cursorGlow)" />
   </g>
 
   <!-- Floating Neumorphic Horizontal Scrollbar at Bottom -->
-  <g transform="translate(45, 296)">
-    <!-- Track -->
-    <rect x="0" y="0" width="760" height="14" rx="7" fill="#141416" stroke="#2a2a2e" stroke-width="1" />
-    <!-- Floating Thumb with spring animation -->
+  <g transform="translate(48, 288)">
+    <!-- Track Groove -->
+    <rect x="0" y="0" width="754" height="16" rx="8" fill="#131316" stroke="#222228" stroke-width="1" />
+    
+    <!-- Floating Raised Thumb with Tactile Hardware Grips -->
     <g class="anim-scrollbar">
-      <rect x="15" y="1.5" width="160" height="11" rx="5.5" fill="#38383e" stroke="#4a4a52" stroke-width="0.8" />
-      <line x1="88" y1="5.5" x2="102" y2="5.5" stroke="#71717a" stroke-width="2" stroke-linecap="round" />
+      <rect x="12" y="2" width="160" height="12" rx="6" fill="#2c2c32" stroke="#3d3d46" stroke-width="1" filter="url(#chipShadow)" />
+      <!-- Tactile Hardware Grip Lines -->
+      <line x1="86" y1="5" x2="86" y2="11" stroke="#63636e" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="92" y1="5" x2="92" y2="11" stroke="#63636e" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="98" y1="5" x2="98" y2="11" stroke="#63636e" stroke-width="1.5" stroke-linecap="round" />
     </g>
   </g>
 </svg>

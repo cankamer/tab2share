@@ -20,7 +20,7 @@ export const LINE_GAP = 24;
 
 export const FRET_NUMBER_FONT = "bold 16px sans-serif";
 export const TUNING_LABEL_FONT = "bold 13px sans-serif";
-export const CHORD_LABEL_FONT = "bold 14px sans-serif";
+export const CHORD_LABEL_FONT = "bold 18px sans-serif";
 export const EFFECT_LABEL_FONT = "bold 12px sans-serif";
 export const ARTICULATION_FONT = "bold 13px sans-serif";
 
@@ -87,6 +87,25 @@ export const SCREEN_PALETTE: TabPalette = {
   articulation: "#B5B5B5",
   vibrato: "#F97316",
   effectRow: "#8A8A8A",
+};
+
+/** Export "black theme" (section 14 output theme): white-on-black print/overlay look, the
+ * inverse of LIGHT_PALETTE. Only ever used for the export/preview canvas, never the app UI. */
+export const DARK_EXPORT_PALETTE: TabPalette = {
+  background: "#000000",
+  stringLine: "#8A8A8A",
+  barline: "#D4D4D8",
+  fretNumber: "#FFFFFF",
+  tuningLabel: "#A1A1AA",
+  rhythmStem: "#D4D4D8",
+  chordLabel: "#FFFFFF",
+  cursor: "#60A5FA",
+  cursorColumnFill: "rgba(96, 165, 250, 0.10)",
+  selectionFill: "rgba(96, 165, 250, 0.18)",
+  pendingDigitBorder: "#F87171",
+  articulation: "#60A5FA",
+  vibrato: "#FB923C",
+  effectRow: "#BBBBC2",
 };
 
 export const WATERMARK_TEXT = "Tab2Share";

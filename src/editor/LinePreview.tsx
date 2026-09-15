@@ -1,105 +1,142 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Project } from "../model/types";
-import { computeLineBreaks, type LineBreakMode } from "../render/lineLayout";
-import { computePreviewSize, drawLinePreview } from "../render/drawLinePreview";
+import { computeExportPages, renderExportPage, type ExportOptions } from "../export/exportPng";
 import { SkeuButton } from "./ui/SkeuButton";
-import { SkeuInput } from "./ui/SkeuInput";
 
-const MIN_MEASURES_PER_LINE = 1;
-const MAX_MEASURES_PER_LINE = 8;
-const MIN_LINE_WIDTH = 200;
-const MAX_LINE_WIDTH = 4000;
-const DEFAULT_LINE_WIDTH = 900;
+interface ExportPreviewProps {
+  project: Project;
+  options: ExportOptions;
+}
 
 /**
- * Section 14's line-breaking engine, as a live preview: "Canlı önizleme paneli, export
- * öncesi sonucu gösterir." Breaks always fall on a measure boundary. Auto mode sizes each
- * measure by content and fills a line up to the width budget (justified); fixed mode uses a
- * constant 1-8 measures/line instead. The width input stands in for step 10's real export
- * size options, which don't exist yet.
+ * WYSIWYG export preview (section 14 revision): renders through the exact same
+ * computeExportPages()/renderExportPage() pipeline the real export uses, at 1x — what's shown
+ * here is pixel-for-pixel what gets written to disk, Tab Sheet's A4 page shape included,
+ * instead of a disconnected free-width approximation.
  */
-export function LinePreview({ project }: { project: Project }) {
+export function ExportPreview({ project, options }: ExportPreviewProps) {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<LineBreakMode>({ kind: "auto" });
-  const [lineWidth, setLineWidth] = useState(DEFAULT_LINE_WIDTH);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollWrapperRef = useRef<HTMLDivElement>(null);
+  const [pageIndex, setPageIndex] = useState(0);
+  const isSheet = options.sizeMode.kind === "reel";
 
-  const measuresPerLine = mode.kind === "fixed" ? mode.measuresPerLine : 4;
+  const pages = computeExportPages(project, options);
+  const pageCount = pages.length;
+  const clampedIndex = Math.min(pageIndex, Math.max(0, pageCount - 1));
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (!canvas || !ctx) return;
+    setPageIndex(0);
+  }, [project, options.sizeMode, options.outputTheme]);
 
-    // The live preview never paginates — it just shows every line, scrolling if long.
-    const pages = computeLineBreaks(project, mode, lineWidth, Number.POSITIVE_INFINITY);
-    const lines = pages.flatMap((page) => page.lines);
-    const { width, height } = computePreviewSize(lines);
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = Math.max(1, width) * dpr;
-    canvas.height = Math.max(1, height) * dpr;
-    canvas.style.width = `${Math.max(1, width)}px`;
-    canvas.style.height = `${Math.max(1, height)}px`;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  // Tab Sheet has no horizontal scroll of its own (one page fills the column) — a horizontal
+  // wheel device (e.g. the MX Master 3S's side thumb-wheel) turns pages instead. Accumulate
+  // ticks and step one page per "notch" rather than per wheel event, so a single flick doesn't
+  // skip several pages at once.
+  useEffect(() => {
+    if (!isSheet || pageCount <= 1) return;
+    const wrapper = scrollWrapperRef.current;
+    if (!wrapper) return;
 
-    drawLinePreview(ctx, project, lines);
-  }, [project, mode, lineWidth]);
+    let accumulated = 0;
+    let cooling = false;
+
+    const onWheel = (event: WheelEvent) => {
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      if (delta === 0) return;
+      event.preventDefault();
+      if (cooling) return;
+
+      accumulated += delta;
+      const threshold = 40;
+      if (accumulated >= threshold) {
+        accumulated = 0;
+        setPageIndex((i) => Math.min(pageCount - 1, i + 1));
+      } else if (accumulated <= -threshold) {
+        accumulated = 0;
+        setPageIndex((i) => Math.max(0, i - 1));
+      } else {
+        return;
+      }
+
+      cooling = true;
+      window.setTimeout(() => {
+        cooling = false;
+      }, 220);
+    };
+
+    wrapper.addEventListener("wheel", onWheel, { passive: false });
+    return () => wrapper.removeEventListener("wheel", onWheel);
+  }, [isSheet, pageCount]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const page = pages[clampedIndex];
+    if (!page) {
+      container.replaceChildren();
+      return;
+    }
+
+    const canvas = renderExportPage(project, page, options);
+    canvas.style.display = "block";
+    if (isSheet) {
+      // A4 page: fit it to the preview column, aspect ratio comes free from the canvas's own
+      // intrinsic pixel size.
+      canvas.style.width = "100%";
+      canvas.style.height = "auto";
+      canvas.style.maxWidth = "420px";
+      canvas.style.margin = "0 auto";
+    } else {
+      // For Video strip: fixed line height, natural width — scrolls horizontally instead of
+      // shrinking illegibly.
+      canvas.style.width = "auto";
+      canvas.style.height = "auto";
+    }
+
+    container.replaceChildren(canvas);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project, options, clampedIndex, isSheet]);
 
   return (
     <div className="raised flex flex-col gap-3 rounded-2xl p-4 text-xs">
-      <div className="flex flex-wrap items-center gap-2">
-        <span style={{ color: "var(--label)" }}>{t("linePreview.lineBreaking")}</span>
-        <SkeuButton onClick={() => setMode({ kind: "auto" })} active={mode.kind === "auto"}>
-          {t("linePreview.auto")}
-        </SkeuButton>
-        <SkeuButton onClick={() => setMode({ kind: "fixed", measuresPerLine })} active={mode.kind === "fixed"}>
-          {t("linePreview.fixed")}
-        </SkeuButton>
-        {mode.kind === "fixed" ? (
-          <SkeuInput
-            key={mode.measuresPerLine}
-            type="number"
-            min={MIN_MEASURES_PER_LINE}
-            max={MAX_MEASURES_PER_LINE}
-            defaultValue={mode.measuresPerLine}
-            onBlur={(event) => {
-              const raw = Number(event.target.value);
-              const value = Number.isFinite(raw)
-                ? Math.max(MIN_MEASURES_PER_LINE, Math.min(MAX_MEASURES_PER_LINE, raw))
-                : MIN_MEASURES_PER_LINE;
-              setMode({ kind: "fixed", measuresPerLine: value });
-            }}
-            className="w-14 text-center font-mono"
-          />
-        ) : null}
+      {isSheet && pageCount > 1 ? (
+        <div className="flex items-center justify-center gap-2">
+          <SkeuButton
+            onClick={() => setPageIndex((i) => Math.max(0, i - 1))}
+            disabled={clampedIndex === 0}
+            title={t("exportPreview.prevPage")}
+          >
+            ‹
+          </SkeuButton>
+          <span style={{ color: "var(--label)" }}>
+            {t("exportPreview.page", { current: clampedIndex + 1, total: pageCount })}
+          </span>
+          <SkeuButton
+            onClick={() => setPageIndex((i) => Math.min(pageCount - 1, i + 1))}
+            disabled={clampedIndex === pageCount - 1}
+            title={t("exportPreview.nextPage")}
+          >
+            ›
+          </SkeuButton>
+        </div>
+      ) : null}
 
-        <span className="mx-1" style={{ color: "var(--body-edge)" }}>
-          |
-        </span>
-
-        <label className="flex items-center gap-1" style={{ color: "var(--label)" }}>
-          {t("linePreview.lineWidth")}
-          <SkeuInput
-            key={lineWidth}
-            type="number"
-            min={MIN_LINE_WIDTH}
-            max={MAX_LINE_WIDTH}
-            defaultValue={lineWidth}
-            onBlur={(event) => {
-              const raw = Number(event.target.value);
-              const value = Number.isFinite(raw)
-                ? Math.max(MIN_LINE_WIDTH, Math.min(MAX_LINE_WIDTH, raw))
-                : DEFAULT_LINE_WIDTH;
-              setLineWidth(value);
-            }}
-            className="w-20 text-center font-mono"
-          />
-        </label>
-      </div>
-
-      <div className="inset overflow-auto rounded-xl p-2 max-h-[350px]">
-        <canvas ref={canvasRef} />
+      <div
+        ref={scrollWrapperRef}
+        className="inset overflow-auto rounded-xl p-2"
+        style={{
+          maxHeight: isSheet ? 560 : 350,
+          backgroundImage:
+            "linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%)",
+          backgroundSize: "16px 16px",
+          backgroundPosition: "0 0, 0 8px, 8px -8px, -8px 0px",
+          backgroundColor: "#c0c0c0",
+        }}
+      >
+        <div ref={containerRef} />
       </div>
     </div>
   );

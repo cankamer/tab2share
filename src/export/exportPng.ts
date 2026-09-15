@@ -3,73 +3,106 @@ import { writeFile } from "@tauri-apps/plugin-fs";
 import type { Project } from "../model/types";
 import { computeLineBreaks, type LineBreakMode, type LineLayoutPage } from "../render/lineLayout";
 import { computePreviewSize, drawLinePreview, drawWatermark, singleLineHeight } from "../render/drawLinePreview";
-import { LINE_GAP } from "../render/constants";
+import { DARK_EXPORT_PALETTE, LIGHT_PALETTE, LINE_GAP, type TabPalette } from "../render/constants";
 
-/** Section 14's two size modes. Reel is a fixed 1080x1920 canvas; strip has no fixed size —
- * it's exactly as wide/tall as its single line of content. */
+/** Section 14's two size modes, revised: "Tab Sheet" is a fixed A4 page (multi-page when the
+ * tab is longer than one sheet); "For Video" ("strip") has no fixed size — it's exactly as
+ * wide/tall as its single line of content, meant to scroll behind a video clip. */
 export type ExportSizeMode =
-  | { kind: "strip" }
+  | { kind: "strip"; fadeTop: boolean; fadeBottom: boolean }
   | { kind: "reel"; lineBreakMode: LineBreakMode; titleBlockEnabled: boolean };
 
-export type ResolutionScale = 1 | 2 | 3;
+/** Output color theme (section 14 revision): independent of the app's own UI theme and of
+ * LIGHT_PALETTE/DARK_EXPORT_PALETTE's other use as the editor's screen colors. */
+export type OutputTheme = "light" | "dark";
 
 export interface ExportOptions {
   sizeMode: ExportSizeMode;
-  resolutionScale: ResolutionScale;
   watermark: boolean;
+  outputTheme: OutputTheme;
 }
 
-const REEL_WIDTH = 1080;
-const REEL_HEIGHT = 1920;
-const REEL_LINES_WITH_TITLE = 3;
-const REEL_LINES_WITHOUT_TITLE = 4;
+export function paletteForTheme(theme: OutputTheme): TabPalette {
+  return theme === "dark" ? DARK_EXPORT_PALETTE : LIGHT_PALETTE;
+}
 
-/** No title-block UI exists yet (that's later) — this is just the space it will reserve,
- * matching the "4 lines drops to 3" rule so the two stay consistent once it's built. */
+// A4 at 150dpi — enough detail to print. Portrait, like a real sheet-music page.
+const SHEET_WIDTH = 1240;
+const SHEET_HEIGHT = 1754;
+const SHEET_MARGIN_X = 56;
+const SHEET_MARGIN_TOP = 56;
+const SHEET_MARGIN_BOTTOM = 56;
+
+/** No title-block content UI exists yet (that's later) — this is just the space it will
+ * reserve, matching the "one fewer line fits when it's on" rule so the two stay consistent
+ * once it's built. */
 function titleBlockReservedHeight(): number {
   return singleLineHeight() + LINE_GAP;
+}
+
+/** How many tab lines fit on one A4 sheet page, given the real (not guessed) line height. */
+function sheetLinesPerPage(titleBlockEnabled: boolean): number {
+  const reserved = titleBlockEnabled ? titleBlockReservedHeight() : 0;
+  const contentHeight = SHEET_HEIGHT - SHEET_MARGIN_TOP - SHEET_MARGIN_BOTTOM - reserved;
+  const perLine = singleLineHeight() + LINE_GAP;
+  return Math.max(1, Math.floor((contentHeight + LINE_GAP) / perLine));
 }
 
 export function computeExportPages(project: Project, options: ExportOptions): LineLayoutPage[] {
   if (options.sizeMode.kind === "strip") {
     return computeLineBreaks(project, { kind: "natural" }, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
   }
-  const availableLines = options.sizeMode.titleBlockEnabled ? REEL_LINES_WITH_TITLE : REEL_LINES_WITHOUT_TITLE;
-  return computeLineBreaks(project, options.sizeMode.lineBreakMode, REEL_WIDTH, availableLines);
+  const availableLines = sheetLinesPerPage(options.sizeMode.titleBlockEnabled);
+  return computeLineBreaks(project, options.sizeMode.lineBreakMode, SHEET_WIDTH - SHEET_MARGIN_X * 2, availableLines);
 }
 
 function topOffsetFor(options: ExportOptions): number {
-  return options.sizeMode.kind === "reel" && options.sizeMode.titleBlockEnabled ? titleBlockReservedHeight() : 0;
+  if (options.sizeMode.kind !== "reel") return 0;
+  const titleBlock = options.sizeMode.titleBlockEnabled ? titleBlockReservedHeight() : 0;
+  return SHEET_MARGIN_TOP + titleBlock;
 }
 
-function renderPageToCanvas(
+/** Exported so the export preview can render exactly one page at 1x without paying for every
+ * page in a multi-page Tab Sheet — the same pipeline the real export uses, pixel-for-pixel. */
+export function renderExportPage(
   project: Project,
   page: LineLayoutPage,
   options: ExportOptions,
 ): HTMLCanvasElement {
   const topOffset = topOffsetFor(options);
+  const leftOffset = options.sizeMode.kind === "reel" ? SHEET_MARGIN_X : 0;
   const natural = computePreviewSize(page.lines, topOffset);
-  const width = options.sizeMode.kind === "reel" ? REEL_WIDTH : natural.width;
-  const height = options.sizeMode.kind === "reel" ? REEL_HEIGHT : natural.height;
+  const width = options.sizeMode.kind === "reel" ? SHEET_WIDTH : natural.width + leftOffset;
+  const height = options.sizeMode.kind === "reel" ? SHEET_HEIGHT : natural.height;
 
   const canvas = document.createElement("canvas");
-  const scale = options.resolutionScale;
-  canvas.width = Math.max(1, Math.round(width * scale));
-  canvas.height = Math.max(1, Math.round(height * scale));
+  canvas.width = Math.max(1, Math.round(width));
+  canvas.height = Math.max(1, Math.round(height));
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Canvas 2D context unavailable");
-  ctx.setTransform(scale, 0, 0, scale, 0, 0);
 
-  // Alpha-channel PNG (section 14): never fill an opaque page background for export.
-  drawLinePreview(ctx, project, page.lines, { opaqueBackground: false, topOffset });
-  if (options.watermark) drawWatermark(ctx, width, height);
+  const palette = paletteForTheme(options.outputTheme);
+  const fadeTop = options.sizeMode.kind === "strip" && options.sizeMode.fadeTop;
+  const fadeBottom = options.sizeMode.kind === "strip" && options.sizeMode.fadeBottom;
+
+  drawLinePreview(ctx, project, page.lines, {
+    background: "opaque",
+    palette,
+    topOffset,
+    leftOffset,
+    pageWidth: width,
+    pageHeight: height,
+    fadeTop,
+    fadeBottom,
+  });
+  if (options.watermark) drawWatermark(ctx, width, height, palette);
 
   return canvas;
 }
 
 /** Section 14: one canvas per export page — a reel-square page is one PNG; strip is always one page. */
 export function renderExportCanvases(project: Project, options: ExportOptions): HTMLCanvasElement[] {
-  return computeExportPages(project, options).map((page) => renderPageToCanvas(project, page, options));
+  return computeExportPages(project, options).map((page) => renderExportPage(project, page, options));
 }
 
 export function canvasToPngBytes(canvas: HTMLCanvasElement): Promise<Uint8Array> {

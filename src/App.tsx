@@ -16,7 +16,7 @@ import { EffectPalette } from "./editor/EffectPalette";
 import { TuningCapoControls } from "./editor/TuningCapoControls";
 import { computeLayout } from "./render/layout";
 import type { LineBreakMode } from "./render/lineLayout";
-import { applyThemeChoice, readStoredChoice, useResolvedTheme, type ThemeChoice } from "./theme";
+import { applyThemeChoice, readStoredChoice, type ThemeChoice } from "./theme";
 import { setLanguage, type AppLanguage } from "./i18n";
 import { useProjectFile } from "./file/useProjectFile";
 import { CURRENT_PROJECT_VERSION } from "./file/project";
@@ -91,7 +91,6 @@ function App() {
   } = useEditor(AM_C_G_F_EXAMPLE);
 
   const [hoveredFlatIndex, setHoveredFlatIndex] = useState<number | null>(null);
-  const resolvedTheme = useResolvedTheme();
   const [themeChoice, setThemeChoiceState] = useState<ThemeChoice>(readStoredChoice);
   const [zoom, setZoom] = useState(1);
   const [showPreview, setShowPreview] = useState(true);
@@ -155,12 +154,10 @@ function App() {
     };
 
     const handleNativeWheel = (e: WheelEvent) => {
-      let delta = 0;
-      if (Math.abs(e.deltaX) > 0) {
-        delta = e.deltaX;
-      } else if (Math.abs(e.deltaY) > 0) {
-        delta = e.deltaY;
-      }
+      // Whichever axis is actually dominant wins — a mouse's smooth-scroll driver (e.g. the MX
+      // Master 3S's Logi Options+) can report a tiny nonzero deltaX alongside a real vertical
+      // scroll, and picking deltaX just because it's nonzero made panning imperceptibly slow.
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
 
       if (delta !== 0) {
         e.preventDefault();
@@ -754,35 +751,39 @@ function App() {
         ) : null}
 
         <div className="flex-1 min-w-0 rounded-2xl p-3 w-full flex flex-col justify-stretch overflow-hidden relative" style={{ background: "var(--body)" }}>
-          <div
-            ref={tabScrollContainerRef}
-            className={`flex-1 flex flex-col justify-center items-start pl-0 py-2 pr-4 overflow-x-auto overflow-y-hidden rounded-xl tab-scrollbar ${resolvedTheme === "dark" ? "tab-screen" : "inset"}`}
-          >
+          <div className="relative flex-1 min-h-0 w-full rounded-xl overflow-hidden tab-screen">
             <div
-              style={{
-                width: `${(tabLayout.width + 70) * zoom}px`,
-                transform: `scale(${zoom})`,
-                transformOrigin: "left center",
-              }}
-              className="my-auto relative group flex items-center shrink-0"
+              ref={tabScrollContainerRef}
+              className="w-full h-full flex flex-col justify-center items-start pl-3.5 sm:pl-4 py-2 pr-4 overflow-x-auto overflow-y-hidden tab-scrollbar"
             >
-              <TabCanvas
-                project={state.project}
-                visual={{ cursor: state.cursor, selectionRange, pendingDigit: state.pendingDigit }}
-                onCellClick={clickCell}
-                onCellHover={setHoveredFlatIndex}
-                onDeleteMeasure={deleteMeasure}
-              />
-              <button
-                type="button"
-                onClick={insertMeasure}
-                title={t("measureControls.insertMeasure", "Ölçü Ekle")}
-                className="raised ml-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-lg font-bold opacity-0 transition-all duration-200 group-hover:opacity-100 hover:scale-110 active:scale-95"
-                style={{ color: "var(--control-text)" }}
+              <div
+                style={{
+                  width: `${(tabLayout.width + 70) * zoom}px`,
+                  transform: `scale(${zoom})`,
+                  transformOrigin: "left center",
+                }}
+                className="my-auto relative group flex items-center shrink-0"
               >
-                +
-              </button>
+                <TabCanvas
+                  project={state.project}
+                  visual={{ cursor: state.cursor, selectionRange, pendingDigit: state.pendingDigit }}
+                  onCellClick={clickCell}
+                  onCellHover={setHoveredFlatIndex}
+                  onDeleteMeasure={deleteMeasure}
+                />
+                <button
+                  type="button"
+                  onClick={insertMeasure}
+                  title={t("measureControls.insertMeasure", "Ölçü Ekle")}
+                  className="raised ml-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-lg font-bold opacity-0 transition-all duration-200 group-hover:opacity-100 hover:scale-110 active:scale-95"
+                  style={{ color: "var(--control-text)" }}
+                >
+                  +
+                </button>
+              </div>
             </div>
+            {/* Persistent Inset Shadow Rim - always on top of canvas, never buried */}
+            <div className="pointer-events-none absolute inset-0 rounded-xl tab-screen-rim z-20" />
           </div>
           <NeumorphicScrollbar scrollRef={tabScrollContainerRef} />
         </div>
