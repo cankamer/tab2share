@@ -7,10 +7,10 @@ import { SkeuInput } from "./ui/SkeuInput";
 
 const CATEGORIES: ChordCategory[] = ["major", "minor", "seventh", "sus", "power"];
 
-const WHEEL_RADIUS = 68;
+const WHEEL_RADIUS = 92;
 const BUTTON_SIZE = 36;
-const WHEEL_SIZE = (WHEEL_RADIUS + BUTTON_SIZE / 2) * 2;
-const HUB_SIZE = 64;
+const HUB_SIZE = 56;
+const WHEEL_SIZE = (WHEEL_RADIUS + BUTTON_SIZE / 2) * 2 + 16;
 
 interface ChordPickerProps {
   currentLabel: string | undefined;
@@ -45,7 +45,7 @@ export function ChordPicker({ currentLabel, onSelectChord, onRenameLabel }: Chor
   const chords = CHORDS.filter((chord) => chord.category === activeCategory);
 
   return (
-    <div className="raised flex flex-col items-center justify-between gap-2 rounded-2xl p-3 text-xs h-full min-w-[260px]">
+    <div className="raised flex flex-col items-center justify-between gap-2 rounded-2xl p-3 text-xs h-full min-w-[276px]">
       <div key={currentLabel ?? ""} className="flex items-center justify-start gap-1.5 w-full text-[11px] pl-1">
         <span style={{ color: "var(--label)" }}>{t("chordPicker.labelField")}</span>
         <SkeuInput
@@ -71,7 +71,7 @@ export function ChordPicker({ currentLabel, onSelectChord, onRenameLabel }: Chor
 
       <div className="relative mx-auto my-auto" style={{ width: WHEEL_SIZE, height: WHEEL_SIZE }}>
         <div
-          className="raised absolute flex flex-col items-center justify-center rounded-full text-center"
+          className="raised absolute flex flex-col items-center justify-center rounded-full text-center select-none"
           style={{
             width: HUB_SIZE,
             height: HUB_SIZE,
@@ -80,8 +80,10 @@ export function ChordPicker({ currentLabel, onSelectChord, onRenameLabel }: Chor
             transform: "translate(-50%, -50%)",
           }}
         >
-          <span style={{ color: "var(--label)" }}>{t("chordPicker.hubLabel")}</span>
-          <span className="font-bold" style={{ color: "var(--control-text)" }}>
+          <span className="text-[10px] tracking-wider uppercase leading-tight" style={{ color: "var(--label)" }}>
+            {t("chordPicker.hubLabel")}
+          </span>
+          <span className="font-bold text-xs leading-tight" style={{ color: "var(--control-text)" }}>
             {currentLabel || t("chordPicker.hubEmpty")}
           </span>
         </div>
@@ -102,7 +104,7 @@ export function ChordPicker({ currentLabel, onSelectChord, onRenameLabel }: Chor
               <button
                 type="button"
                 onClick={() => onSelectChord(chord)}
-                className={`${active ? "inset" : "raised"} flex items-center justify-center rounded-full text-xs transition-transform hover:scale-105`}
+                className={`${active ? "inset" : "raised"} flex items-center justify-center rounded-full text-xs font-bold transition-all duration-150 hover:scale-110 active:scale-95 cursor-pointer select-none`}
                 style={{
                   width: BUTTON_SIZE,
                   height: BUTTON_SIZE,
